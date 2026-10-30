@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gharsche.github.io/fahrradtouren-online/sitemap.xml
