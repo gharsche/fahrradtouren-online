@@ -100,6 +100,10 @@ def main():
             if local and not local.is_file():
                 missing_local.append((page.relative_to(DOCS).as_posix(), ref))
     text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in html_files)
+    home_html = (DOCS / "index.html").read_text(encoding="utf-8")
+    original_image_url = "https://harsche.com/wp-content/uploads/2023/01/cropped-iStock-1353080098-e1672999846998-1-e1673000401406.jpg"
+    original_image_path = data["media"].get(original_image_url, "")
+    expected_home_image = BASE + "/" + original_image_path.lstrip("/") if original_image_path else ""
     search_data = json.loads((DOCS / "assets" / "search-index.json").read_text(encoding="utf-8"))
     results = {
         "source_pages": len(data["pages"]),
@@ -115,9 +119,10 @@ def main():
         "missing_local_reference_count": len(missing_local),
         "google_key_marker_in_html": "AIza" in text,
         "hero_image_exists": (DOCS / "assets" / "bergstrasse-cycling.png").is_file(),
+        "homepage_original_image_used": bool(expected_home_image and expected_home_image in home_html),
     }
     print(json.dumps(results, ensure_ascii=False, indent=2))
-    if missing_routes or missing_content or missing_local or results["google_key_marker_in_html"] or not results["hero_image_exists"] or len(search_data) != len(expected):
+    if missing_routes or missing_content or missing_local or results["google_key_marker_in_html"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or len(search_data) != len(expected):
         raise SystemExit(1)
 
 

@@ -19,6 +19,7 @@ API = "https://harsche.com/wp-json/wp/v2/"
 EXTRA_IMAGES = [
     "https://harsche.com/wp-content/uploads/2026/03/81Yuisb-K-L._SL1500_-1024x1024.jpg",
     "https://harsche.com/wp-content/uploads/2026/03/OIP.jpeg",
+    "https://harsche.com/wp-content/uploads/2023/01/cropped-iStock-1353080098-e1672999846998-1-e1673000401406.jpg",
 ]
 FALLBACK_MEDIA = {
     "https://harsche.com/wp-content/uploads/2023/03/5068e33d-edb2-462c-9fa2-18e3b0b3db8a-225x300-1.jpg": "https://harsche.com/wp-content/uploads/2023/09/5068e33d-edb2-462c-9fa2-18e3b0b3db8a-225x300-1.jpg",
