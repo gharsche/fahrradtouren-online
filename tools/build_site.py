@@ -18,6 +18,7 @@ DOCS = ROOT / "docs"
 SITE_BASE = "/fahrradtouren-online"
 SITE_ORIGIN = "https://gharsche.github.io"
 CURRENT_YEAR = "2026"
+HOMEPAGE_IMAGE_URL = "https://harsche.com/wp-content/uploads/2023/01/cropped-iStock-1353080098-e1672999846998-1-e1673000401406.jpg"
 
 NAV = [
     {"label": "Start", "path": "/", "items": []},
@@ -480,10 +481,14 @@ def render_listing(title: str, posts: list[dict], data: dict, route: str, page_n
     lead_image = ""
     lead_alt = ""
     if page_number == 1 and route == "/":
-        first = posts[0] if posts else None
-        if first and first.get("featured_image"):
-            lead_image = local_asset(data["media"].get(first["featured_image"]["url"]))
-            lead_alt = (first.get("featured_image") or {}).get("alt", "")
+        lead_image = local_asset(data["media"].get(HOMEPAGE_IMAGE_URL))
+        if lead_image:
+            lead_alt = "Radfahren an der Bergstraße"
+        else:
+            first = posts[0] if posts else None
+            if first and first.get("featured_image"):
+                lead_image = local_asset(data["media"].get(first["featured_image"]["url"]))
+                lead_alt = (first.get("featured_image") or {}).get("alt", "")
         if not lead_image and (DOCS / "assets" / "bergstrasse-cycling.png").exists():
             lead_image = site_url("/assets/bergstrasse-cycling.png")
             lead_alt = "Zwei Radfahrende unterwegs durch die Landschaft der Bergstraße"
