@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlparse
@@ -148,6 +149,9 @@ def main():
     expected_home_image = BASE + "/" + original_image_path.lstrip("/") if original_image_path else ""
     search_data = json.loads((DOCS / "assets" / "search-index.json").read_text(encoding="utf-8"))
     carbon_page = (DOCS / "aufruestung-des-rose-backroad-mit-carbonfelgen" / "index.html").read_text(encoding="utf-8")
+    privacy_page = (DOCS / "datenschutzerklaerung" / "index.html").read_text(encoding="utf-8")
+    strava_map_tags = re.findall(r'<img\b(?=[^>]*class="strava-map")[^>]*>', home_html)
+    html_without_strava_map_tags = re.sub(r'<img\b(?=[^>]*class="strava-map")[^>]*>', "", text)
     results = {
         "source_pages": len(data["pages"]),
         "source_posts": len(data["posts"]),
@@ -162,14 +166,17 @@ def main():
         "missing_local_reference_count": len(missing_local),
         "duplicate_menu_entries": duplicate_menu_entries[:25],
         "duplicate_menu_entry_count": len(duplicate_menu_entries),
-        "google_key_marker_in_html": "AIza" in text,
+        "google_key_marker_outside_strava_map_html": "AIza" in html_without_strava_map_tags,
+        "strava_logo_present": 'class="strava-brand"' in home_html and 'aria-label="Strava"' in home_html,
+        "strava_map_image_present": bool(strava_map_tags and "maps.googleapis.com/maps/api/staticmap?" in strava_map_tags[0] and "AIza" in strava_map_tags[0]),
+        "privacy_discloses_google_map": "Google Maps Static API" in privacy_page and "maps.googleapis.com" in privacy_page,
         "hero_image_exists": (DOCS / "assets" / "bergstrasse-cycling.png").is_file(),
         "homepage_original_image_used": bool(expected_home_image and expected_home_image in home_html),
         "carbon_tile_uses_full_artwork_layout": '<section class="hero artwork-hero">' in carbon_page and 'class="visually-hidden">Aufrüstung des Rose Backroad mit Carbonfelgen</h1>' in carbon_page,
         "hero_headings_keep_words_intact": ".hero-copy h1{font-size:clamp(32px,4.2vw,56px);overflow-wrap:normal;word-break:normal;hyphens:none}" in (DOCS / "assets" / "site.css").read_text(encoding="utf-8"),
     }
     print(json.dumps(results, ensure_ascii=False, indent=2))
-    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["google_key_marker_in_html"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or not results["hero_headings_keep_words_intact"] or len(search_data) != len(expected):
+    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["google_key_marker_outside_strava_map_html"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or not results["hero_headings_keep_words_intact"] or len(search_data) != len(expected):
         raise SystemExit(1)
 
 
