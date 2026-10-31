@@ -1,0 +1,326 @@
+{
+  "base_url": "https://harsche.com",
+  "note": "Handgeflegte Title-/Description-Paare (recherchiert aus content/wordpress-export.json), key = Pfad wie in sitemap.xml. build_site.py: Eintrag vor der Auto-Ableitung schlagen; fehlende Pfade nutzen den Fallback. Titel unveraendert uebernehmen (Marken-Suffix nur, wo es in 60 Zeichen passt). Optionales Feld 'robots' respektieren.",
+  "pages": {
+    "/": {
+      "description": "Fahrradtouren und Gravel ab der Bergstraße: Routen, Ausrüstung, Radsport-News und Infrastruktur – persönlich erprobt und aufgeschrieben von Günter Harsche.",
+      "title": "Radfahren an der Bergstraße – Touren, Gravel & Radsport"
+    },
+    "/2023/01/": {
+      "description": "Alle Blogbeiträge vom Januar 2023: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv Januar 2023 – Radfahren an der Bergstraße"
+    },
+    "/2023/12/": {
+      "description": "Alle Blogbeiträge vom Dezember 2023: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv Dezember 2023 – Radfahren an der Bergstraße"
+    },
+    "/2024/03/": {
+      "description": "Alle Blogbeiträge vom März 2024: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv März 2024 – Radfahren an der Bergstraße"
+    },
+    "/2024/04/": {
+      "description": "Alle Blogbeiträge vom April 2024: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv April 2024 – Radfahren an der Bergstraße"
+    },
+    "/2024/06/": {
+      "description": "Alle Blogbeiträge vom Juni 2024: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv Juni 2024 – Radfahren an der Bergstraße"
+    },
+    "/2024/09/": {
+      "description": "Alle Blogbeiträge vom September 2024: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv September 2024 – Radfahren an der Bergstraße"
+    },
+    "/2024/11/": {
+      "description": "Alle Blogbeiträge vom November 2024: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv November 2024 – Radfahren an der Bergstraße"
+    },
+    "/2025-war-ein-toedliches-jahr-fuer-radfahrende-in-deutschland/": {
+      "description": "Verkehrstote 2025: Radfahrende sterben viel zu häufig – Deutschland hat ein Infrastrukturproblem, kein Radfahrerproblem. Zahlen und Folgen.",
+      "title": "2025 war ein tödliches Jahr für Radfahrende in Deutschland"
+    },
+    "/2025/02/": {
+      "description": "Alle Blogbeiträge vom Februar 2025: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv Februar 2025 – Radfahren an der Bergstraße"
+    },
+    "/2025/03/": {
+      "description": "Alle Blogbeiträge vom März 2025: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv März 2025 – Radfahren an der Bergstraße"
+    },
+    "/2025/04/": {
+      "description": "Alle Blogbeiträge vom April 2025: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv April 2025 – Radfahren an der Bergstraße"
+    },
+    "/2025/06/": {
+      "description": "Alle Blogbeiträge vom Juni 2025: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv Juni 2025 – Radfahren an der Bergstraße"
+    },
+    "/2025/08/": {
+      "description": "Alle Blogbeiträge vom August 2025: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv August 2025 – Radfahren an der Bergstraße"
+    },
+    "/2026/01/": {
+      "description": "Alle Blogbeiträge vom Januar 2026: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv Januar 2026 – Radfahren an der Bergstraße"
+    },
+    "/2026/03/": {
+      "description": "Alle Blogbeiträge vom März 2026: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv März 2026 – Radfahren an der Bergstraße"
+    },
+    "/2026/04/": {
+      "description": "Alle Blogbeiträge vom April 2026: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv April 2026 – Radfahren an der Bergstraße"
+    },
+    "/2026/05/": {
+      "description": "Alle Blogbeiträge vom Mai 2026: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv Mai 2026 – Radfahren an der Bergstraße"
+    },
+    "/2026/08/": {
+      "description": "Alle Blogbeiträge vom August 2026: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv August 2026 – Radfahren an der Bergstraße"
+    },
+    "/2026/09/": {
+      "description": "Alle Blogbeiträge vom September 2026: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv September 2026 – Radfahren an der Bergstraße"
+    },
+    "/2026/10/": {
+      "description": "Alle Blogbeiträge vom Oktober 2026: Touren, Ausrüstung, Radsport und Verkehrsthemen von der Bergstraße.",
+      "title": "Archiv Oktober 2026 – Radfahren an der Bergstraße"
+    },
+    "/adfc-klimatest-2024/": {
+      "description": "Fahrradklima-Test 2024: 213.000 Radfahrende bewerteten 1.047 Städte – Durchschnittsnote 3,92. Leicht verbessert, aber weiter ausbaufähig.",
+      "title": "ADFC Fahrradklima-Test 2024 – Ergebnisse"
+    },
+    "/aufruestung-des-rose-backroad-mit-carbonfelgen/": {
+      "description": "Carbonfelgen fürs Rose Backroad: warum Elitewheels Drive G45? Umfangreiche Recherche, Preis-Leistungs-Vergleich und Projektbericht zum Umbau.",
+      "title": "Rose Backroad aufrüsten mit Carbonfelgen"
+    },
+    "/benutzung-von-fahrradwegen-ein-immer-waehrender-streitpunkt/": {
+      "description": "Müssen Rennradfahrer den Radweg nutzen? Schnelle, leidenschaftliche Fahrer zwischen Trainingsrouten, Radwegpflicht und Dauerstreit im Straßenverkehr.",
+      "title": "Benutzungspflicht von Fahrradwegen für Rennradfahrer"
+    },
+    "/blinker-fuer-fahrraeder/": {
+      "description": "Seit 20. Juni 2024 sind Fahrrad-Blinker in Deutschland erlaubt (StVZO-Änderung) – freiwillig, mit Optionen und spürbarem Sicherheitsgewinn.",
+      "title": "Blinker für Fahrräder seit 2024 offiziell erlaubt"
+    },
+    "/category/allgemein/": {
+      "description": "Der Querschnitt des Blogs: Tourenberichte, Ausrüstungs-Projekte, Radsport und Grundsatzthemen rund ums Radfahren an der Bergstraße.",
+      "title": "Alle Beiträge – Radfahren an der Bergstraße"
+    },
+    "/category/pendeln/": {
+      "description": "Alltagstauglichkeit des Rads: Radeln zur Arbeit, Stadtradeln und Zahlen zur Verkehrssicherheit – beobachtet im Kreis Bergstraße.",
+      "title": "Pendeln mit dem Fahrrad – Berichte & Analysen"
+    },
+    "/category/radsport/": {
+      "description": "Persönlicher Radsport: Gravel-Trends 2026, Rose-Projekte, HR Radtour 2025, Werkstatt-Praxis und Trainingsberichte.",
+      "title": "Radsport – Gravel, Rennrad & Tourenberichte"
+    },
+    "/category/verkehrskonzepte/": {
+      "description": "Infrastruktur im Blick: Radschnellwege, Fahrradklima-Test, Fraunhofer-Studie und die Gründe, warum der Ausbau stockt.",
+      "title": "Verkehrskonzepte – Radinfrastruktur & Planung"
+    },
+    "/category/verkehrssicherheit/": {
+      "description": "Zahlen, Streitpunkte und Lösungen zur Sicherheit von Radfahrenden in Deutschland – von der StVO bis zur Radwegnutzung.",
+      "title": "Verkehrssicherheit für Radfahrende – Analysen & Berichte"
+    },
+    "/category/verkehrswende/": {
+      "description": "Kommentare zur Verkehrswende: Warum Deutschland ein Infrastrukturproblem hat, kein Radfahrerproblem – und was politisch folgen muss.",
+      "title": "Verkehrswende – Mehr Platz fürs Fahrrad"
+    },
+    "/das-gravel-bike-eine-glaubensfrage/": {
+      "description": "Was sind Gravel Bikes eigentlich, warum sind sie so beliebt – und sind sie eine Glaubensfrage? Gedanken über den vielseitigsten Fahrradtyp.",
+      "title": "Das Gravel Bike – eine Glaubensfrage?"
+    },
+    "/datenschutzerklaerung/": {
+      "description": "Informationen zur Verarbeitung personenbezogener Daten bei der Nutzung dieser Website: Verantwortlicher, Kontakt und Rechte der Nutzer.",
+      "title": "Datenschutzerklärung"
+    },
+    "/erfahrung-mit-dem-wheeltop-service/": {
+      "description": "EDS-TX-Shifter nach 21 Monaten defekt: dokumentierte Reklamation, acht Wochen ohne Ersatz – ein ehrlicher Blick auf WheelTop Service und Support.",
+      "title": "WheelTop Service & Support – Erfahrungsbericht"
+    },
+    "/fahrradkette-wachs-oder-oel/": {
+      "description": "Pannen mit verschmierten Händen oder Kettentattoos an den Socken? Kettenwachs als viel diskutierte Alternative für Rennrad und Gravelbike.",
+      "title": "Fahrradkette pflegen: Wachs oder Öl?"
+    },
+    "/fahrradtrends/": {
+      "description": "Rennrad, Gravel, Mountainbike und E-Bike: persönliche Setups, Umbauten und aktuelle Trends – mit Praxisberichten zu Gravel-Neuheiten und Rose-Projekten.",
+      "title": "Fahrradtrends – Rennrad, Gravel, MTB & E-Bike"
+    },
+    "/fahrradtrends/e-bike/": {
+      "description": "E-Bikes als Alternative zum Auto für kurze und mittlere Strecken: die verschiedenen Typen – je nach Bedarf und Einsatzzweck erklärt.",
+      "title": "E-Bike – Typen, Trends & Kaufberatung"
+    },
+    "/fahrradtrends/gravel-bike/": {
+      "description": "Gravel Bikes im Vergleich: was sie von Cyclocross, Mountainbike und Rennrad unterscheidet – und warum sie so vielseitig unterwegs sind.",
+      "title": "Gravel Bike – das Allround-Rad im Portrait"
+    },
+    "/fahrradtrends/gravel-bike/backroad-grx-rx810-di2-1x11/": {
+      "description": "170 Kilometer auf dem Rose Backroad GRX RX810 Di2 1×11 in Evil Pepper Green: erster Eindruck eines echten Hinguckers für Gravel-Fans.",
+      "title": "Rose Backroad GRX RX810 Di2 – erstes Fahrgefühl"
+    },
+    "/fahrradtrends/montainbike/": {
+      "description": "Gemütliche Bergtouren oder harte Trails: die wichtigsten Mountainbike-Typen und ihre Einsatzbereiche – verständlich erklärt.",
+      "title": "Mountainbike-Typen im Überblick"
+    },
+    "/fahrradtrends/road-bike/": {
+      "description": "Trends im Rennradsport, die nicht jeder kennt: Was ist neu beim schnellen Fahren – und was zählt für ambitionierte Hobbyfahrer?",
+      "title": "Rennrad-Trends für Profis und Hobbyfahrer"
+    },
+    "/gravel-bike-touren/": {
+      "description": "Gravel-Touren an der Bergstraße: Waldwege im Odenwald, Feldstücke an der Verbandsstraße, aufwärts über Reben – veröffentlicht wird, was gefahren ist.",
+      "title": "Gravel-Touren an der Bergstraße"
+    },
+    "/gravel-bike-trends-2026-breitere-reifen-mehr-komfort-und-gravel-bleibt-vielseitig/": {
+      "description": "Breitere Reifen, aerodynamische Rahmen, mehr Gravel-Events: Diese Trends prägen Gravelbikes 2026. Was davon ist für den Alltag wirklich wichtig?",
+      "title": "Gravel Bike Trends 2026: breitere Reifen, mehr Komfort"
+    },
+    "/hello-world/": {
+      "description": "Kein Verkehrsmittel hat eine bessere Umweltbilanz: kein Lärm, keine Schadstoffe – das Fahrrad hat in der Verkehrswende an Bedeutung gewonnen.",
+      "title": "Umwelt- und gesundheitsbewusst mit dem Fahrrad"
+    },
+    "/hilfsbereitschaft-unter-fahrradfahrern/": {
+      "description": "Wie trägt man sich auf Tour? Beobachtungen über Solidarität und gegenseitige Hilfe in einer zunehmend individualisierten Radfahrerschaft.",
+      "title": "Hilfsbereitschaft unter Radfahrenden"
+    },
+    "/hr-radtour-2025-1-etappe-von-bensheim-nach-darmstadt/": {
+      "description": "Spontan mitgefahren zur 1. Etappe der HR Radtour von Bensheim nach Darmstadt – notfalls mit dem Gravelbike statt des platten Mountainbikes.",
+      "title": "HR Radtour 2025 – Etappe Bensheim nach Darmstadt"
+    },
+    "/impressum/": {
+      "description": "Angaben gemäß § 5 Digitale-Dienste-Gesetz: Betreiber dieser Website, Kontakt und Haftungsausschluss.",
+      "title": "Impressum – Radfahren an der Bergstraße"
+    },
+    "/in-einer-stunde-mit-dem-fahrrad-in-frankfurt/": {
+      "description": "Der geplante Radschnellweg von Darmstadt nach Frankfurt: durchgehende, komfortable Verbindung – Planungsstand und Bedeutung für Pendler.",
+      "title": "Radschnellweg Darmstadt–Frankfurt: eine Stunde?"
+    },
+    "/kreta-das-neue-mallorca-fuer-rennradfahrer/": {
+      "description": "Kreta als Radreiseziel: Routenvielfalt, Berge, wenig Verkehr – warum die Insel bei Rennradfahrern boomt und als neues Mallorca gilt.",
+      "title": "Kreta – das neue Mallorca für Rennradfahrer"
+    },
+    "/mit-dem-fahrrad-sicher-im-winter-unterwegs/": {
+      "description": "Sicher Radfahren im Winter: Tipps zu Beleuchtung, Ausrüstung und Fahrweise – ausgelöst durch einen tödlichen Unfall auf der B460.",
+      "title": "Mit dem Fahrrad sicher im Winter unterwegs"
+    },
+    "/news/": {
+      "description": "Kurz und zuerst: Meldungen vom Fahrradmarkt, neue Anbauten an meinen Rädern, Beobachtungen aus der Werkstatt – Langbeiträge unter Fahrradtrends.",
+      "title": "News aus der Fahrradwelt – kurz & aktuell"
+    },
+    "/news/elektronische-schaltung-wheel-top-eds-tx/": {
+      "description": "Umbau-Projekt Cervelo Caledonia 105: elektronische Schaltung mit WheelTop EDS-TX – informiert auf der Eurobike 2024, geplant ohne Marken-Zwang.",
+      "title": "WheelTop EDS-TX: elektronische Schaltung nachrüsten"
+    },
+    "/news/nachruestung-powermeter/": {
+      "description": "Effektives Krafttraining: einseitige Kurbel-Messung mit Inpeak PowerCrank – Setup am Gravelbike (GRX) und Rennrad, Vorteile und Erfahrung.",
+      "title": "Powermeter nachrüsten: Inpeak PowerCrank im Einsatz"
+    },
+    "/news/neueste-gravelbike-trends/": {
+      "description": "Gravelbikes sind die vielseitigsten Räder auf dem Markt – auf Asphalt wie auf Schotter. Was sind die neuesten Trends der Szene?",
+      "title": "Neueste Gravelbike-Trends im Überblick"
+    },
+    "/nuetzliche-tools-und-apps/": {
+      "description": "Planung, Auswertung, Training: Komoot für Routen, Strava für Aufzeichnungen, Zwift für den Winter – mit echten Einstellungen und Erfahrung, nicht Werbung.",
+      "title": "Tools & Ratgeber für Radfahrende"
+    },
+    "/nuetzliche-tools-und-apps/komoot-routenplanung/": {
+      "description": "Komoot für Rad- und Outdoor-Touren: Routen planen, navigieren und teilen – so findet jeder die passenden Wege für sein Fitnesslevel.",
+      "title": "Komoot – Routenplanung fürs Rad"
+    },
+    "/nuetzliche-tools-und-apps/strava-if-its-not-on-strava-it-never-happend/": {
+      "description": "Strava für Radsportler: Aktivitäten aufzeichnen, analysieren und vergleichen – welche Funktionen motivieren und inspirieren?",
+      "title": "Strava – Aktivitäten aufzeichnen & vergleichen"
+    },
+    "/page/2/": {
+      "description": "Weitere Beiträge aus dem Radfahr-Blog an der Bergstraße: Tourenberichte, Ausrüstung, Radsport und Verkehrsthemen.",
+      "title": "Blog-Übersicht – Seite 2"
+    },
+    "/page/3/": {
+      "description": "Weitere Beiträge aus dem Radfahr-Blog an der Bergstraße: Tourenberichte, Ausrüstung, Radsport und Verkehrsthemen.",
+      "title": "Blog-Übersicht – Seite 3"
+    },
+    "/potenzialabschaetzung-zum-radverkehr-vom-fraunhofer-institut/": {
+      "description": "Die Potenzialabschätzung des Fraunhofer ISI zeigt: Mit gezielten politischen Maßnahmen stiege der Radverkehrsanteil in Deutschland deutlich.",
+      "title": "Fraunhofer-Studie: So viel Potenzial hat der Radverkehr"
+    },
+    "/rose-new-bike-day/": {
+      "description": "Neues Rose Backroad FF Red XPLR AXS in Dirty Lemon: Endmontage am ersten Tag, Farbe als Hammer – und die Testfahrt bestätigt den Eindruck.",
+      "title": "Rose New Bike Day – Backroad FF Red in Dirty Lemon"
+    },
+    "/sample-page/": {
+      "description": "Ratgeber vom Schraubtisch: Kette pflegen, Blinker nachrüsten, im Winter sicher fahren, das passende Rad finden – gesammelt unter Tools & Ratgeber.",
+      "title": "Ratgeber rund ums Fahrrad – Übersicht"
+    },
+    "/sample-page/das-richtige-fahrrad/": {
+      "description": "Das richtige Fahrrad zu finden ist so individuell wie die Person: Fahrräder in Deutschland für Freizeit, Pendeln, Sport und Familie.",
+      "title": "Das richtige Fahrrad finden – Typen & Einsatz"
+    },
+    "/search/": {
+      "description": "Beiträge im Blog finden: Touren, Ausrüstung, Radsport und Verkehrsthemen an der Bergstraße.",
+      "robots": "noindex,follow",
+      "title": "Suche – Radfahren an der Bergstraße"
+    },
+    "/stadtradeln-2024-eine-fahrt-in-eine-nachhaltige-verkehrspolitik/": {
+      "description": "Stadtradeln 2024: 21 Tage Alltagswege fürs Klima – was die Kampagne bewegt, wer mitmacht und wie daraus nachhaltige Mobilität wird.",
+      "title": "Stadtradeln 2024 – Fahrt in eine nachhaltige Verkehrspolitik"
+    },
+    "/stadtradeln-2025/": {
+      "description": "Stadtradeln 2025: drei Wochen Arbeit, Schule und Erledigungen mit dem Rad – wie die Kampagne klimafreundliche Mobilität erlebbar macht.",
+      "title": "Stadtradeln 2025 – 21 Tage Fahrradalltag"
+    },
+    "/stadtradeln-2026/": {
+      "description": "Stadtradeln 2026 startet am 1. Mai: 21 Tage Kilometer sammeln für weniger CO₂, mehr Lebensqualität und eine starke Fahrradkultur.",
+      "title": "Stadtradeln 2026 – Start der Kampagne am 1. Mai"
+    },
+    "/stockender-ausbau-von-fahrradschnellwegen/": {
+      "description": "Fahrradschnellwege versprechen schnelles, sicheres Pendeln – doch der Ausbau in Deutschland kommt nur schleppend voran. Ursachen und Folgen.",
+      "title": "Warum Radschnellwege so langsam ausgebaut werden"
+    },
+    "/touren/": {
+      "description": "Tourenvorschläge für den Kreis Bergstraße: E-Bike, Rennrad, Mountainbike und Familientouren durch Weinberge und Odenwald – mit Streckendaten.",
+      "title": "Radtouren an der Bergstraße – Routen & Tipps"
+    },
+    "/touren/e-bike-tour/": {
+      "description": "E-Bike-Touren im Kreis Bergstraße: Höhenmeter für die Akkus, nicht nur für die Waden – real gefahrene Routen mit Reichweitenangabe.",
+      "title": "E-Bike-Touren an der Bergstraße & Odenwald"
+    },
+    "/touren/familie/": {
+      "description": "Familientouren an der Bergstraße: flache Rheinstrecken für kleine Beine, Routen durch die Weinorte – mit Kindern gefahren, inklusive Pausen und Eis.",
+      "title": "Familientouren mit dem Fahrrad an der Bergstraße"
+    },
+    "/touren/mountainbike-tour/": {
+      "description": "Mountainbike an der Bergstraße: wurzelige Singletrails, steile Hänge, harte Bremspunkte im Odenwald – dokumentiert, sobald fahrbar.",
+      "title": "Mountainbike-Touren an der Bergstraße & Odenwald"
+    },
+    "/touren/rennrad-tour/": {
+      "description": "Rennrad-Touren im Rheintal und Odenwald: Routen wie die Rheintour über Biblis und Kornsand – mit Streckenbeschreibung und Einkehr-Pausen.",
+      "title": "Rennrad-Touren rund um die Bergstraße"
+    },
+    "/umbau-auf-mavic-carbonfelgen/": {
+      "description": "Zweites Update fürs Cervelo Caledonia: Mavic-Carbonfelgen, 12-fach-Kassette, gewachste Kette – auf dem Weg zu unter 9 kg Gesamtgewicht.",
+      "title": "Umbau auf Mavic Carbonfelgen – unter 9 Kilogramm"
+    },
+    "/virtuelles-radfahren/": {
+      "description": "Wintertraining auf der Rolle: Zwift-Welten, Smart-Trainer und Einheiten, die auch ohne Draußen Kilometer bringen.",
+      "title": "Virtuelles Radfahren – Wintertraining auf der Rolle"
+    },
+    "/virtuelles-radfahren/zwift-bike-zwift-ride-smarter-rahmen/": {
+      "description": "Das Zwift Bike: zunächst nur im Bundle mit Wahoo Kickr Core für 1.299,99 Euro, seit einiger Zeit auch einzeln – Preis, Optionen, Einordnung.",
+      "title": "Zwift Ride Rahmen – vom Bundle zum Einzelkauf"
+    },
+    "/virtuelles-radfahren/zwift-virtuelles-radfahren/": {
+      "description": "Erfahrungen mit Zwift: auf der Online-Plattform mit Radfahrern weltweit trainieren – warum das System mich seit Monaten begeistert.",
+      "title": "Zwift – Mein Fazit zum virtuellen Radtraining"
+    },
+    "/warum-der-fahrradmarkt-gerade-ins-stottern-geraet/": {
+      "description": "Der Fahrradmarkt steckt nach dem Corona-Boom in einer schwierigen Phase mit sinkenden Absätzen – warum das für Verbraucher auch gut ist.",
+      "title": "Warum der Fahrradmarkt gerade ins Stottern gerät"
+    },
+    "/warum-stockt-der-ausbau-der-fahrradinfrastruktur/": {
+      "description": "0,4 Milliarden Euro für den Radwegebau gegenüber 10 Milliarden für Straßen – ein Vergleich der Bundesinvestitionen 2025 und was er bedeutet.",
+      "title": "Warum stockt der Ausbau der Radinfrastruktur?"
+    }
+  },
+  "site_name": "Radfahren an der Bergstraße",
+  "updated": "2026-10-31",
+  "version": 1
+}
