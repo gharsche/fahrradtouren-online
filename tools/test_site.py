@@ -167,7 +167,7 @@ def main():
         "duplicate_menu_entries": duplicate_menu_entries[:25],
         "duplicate_menu_entry_count": len(duplicate_menu_entries),
         "google_key_marker_outside_strava_map_html": "AIza" in html_without_strava_map_tags,
-        "strava_logo_present": 'class="strava-brand"' in home_html and 'aria-label="Strava"' in home_html,
+        "strava_logo_present": 'class="strava-brand"' in home_html and 'strava-powered-by-orange.svg' in home_html and (DOCS / "assets" / "strava-powered-by-orange.svg").is_file() and "#FC5200" in (DOCS / "assets" / "strava-powered-by-orange.svg").read_text(encoding="utf-8"),
         "strava_map_image_present": bool(strava_map_tags and "maps.googleapis.com/maps/api/staticmap?" in strava_map_tags[0] and "AIza" in strava_map_tags[0]),
         "privacy_discloses_google_map": "Google Maps Static API" in privacy_page and "maps.googleapis.com" in privacy_page,
         "hero_image_exists": (DOCS / "assets" / "bergstrasse-cycling.png").is_file(),
