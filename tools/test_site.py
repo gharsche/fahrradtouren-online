@@ -154,6 +154,21 @@ def main():
     privacy_page = (DOCS / "datenschutzerklaerung" / "index.html").read_text(encoding="utf-8")
     strava_map_tags = re.findall(r'<img\b(?=[^>]*class="strava-map")[^>]*>', home_html)
     html_without_strava_map_tags = re.sub(r'<img\b(?=[^>]*class="strava-map")[^>]*>', "", text)
+    recovered_media_markers = [
+        "Video-Project-40.mp4", "Unbenanntes-Video-8.mp4", "Unbenanntes-Video-9.mp4",
+        "Unbenanntes-Video-10.mp4", "Unbenanntes-Video-37.mp4",
+        "20240804_180928-1024x576.jpg", "20240804_180937-1024x576.jpg",
+        "20240804_180944-1024x576.jpg", "20240805_193256-576x1024.jpg",
+        "20240805_193306-1024x576.jpg", "20240805_193325-1024x576.jpg",
+        "20250109_111511-1-420x1024.jpg", "20250113_184336-419x1024.jpg",
+        "20250216_171137-1024x419.jpg", "20250216_171506-419x1024.jpg",
+        "Screenshot-2025-02-16-183959.png",
+    ]
+    recovered_media_keys = [url for url in data["media"] if any(marker in url for marker in recovered_media_markers)]
+    missing_recovered_media = [url for url in recovered_media_keys if not (DOCS / data["media"][url]).is_file()]
+    external_wordpress_media = re.findall(r'(?:src|poster)="(https?://(?:harsche\.com|www\.harsche\.com|i[012]\.wp\.com)/[^\"]*wp-content/uploads/[^\"]+)"', text)
+    video_sources = re.findall(r'<video\b[^>]*\bsrc="([^\"]+)"', text)
+    local_video_sources = [src for src in video_sources if src.startswith(BASE + "/assets/wp-media/") and (local_path := file_for_url(src)) is not None and local_path.is_file()]
     results = {
         "source_pages": len(data["pages"]),
         "source_posts": len(data["posts"]),
@@ -175,11 +190,16 @@ def main():
         "hero_image_exists": (DOCS / "assets" / "bergstrasse-cycling.png").is_file(),
         "homepage_original_image_used": bool(expected_home_image and expected_home_image in home_html),
         "carbon_tile_uses_full_artwork_layout": '<section class="hero artwork-hero">' in carbon_page and 'class="visually-hidden">Aufrüstung des Rose Backroad mit Carbonfelgen</h1>' in carbon_page,
-        "rose_video_source_preserved": bool(re.search(r'<video\b(?=[^>]*\bsrc="https://harsche\.com/wp-content/uploads/2026/09/Video-Project-40\.mp4")[^>]*>', rose_page)),
+        "recovered_media_count": len(recovered_media_keys),
+        "recovered_media_files_exist": len(recovered_media_keys) == len(recovered_media_markers) and not missing_recovered_media,
+        "external_wordpress_media_reference_count": len(external_wordpress_media),
+        "video_source_count": len(video_sources),
+        "all_video_sources_local": len(video_sources) == 5 and len(local_video_sources) == 5,
+        "rose_video_source_local": bool(re.search(r'<video\b(?=[^>]*\bsrc="/assets/wp-media/461997f54f15f8dd079c\.mp4")[^>]*>', rose_page)),
         "hero_headings_keep_words_intact": ".hero-copy h1{font-size:clamp(32px,4.2vw,56px);overflow-wrap:normal;word-break:normal;hyphens:none}" in (DOCS / "assets" / "site.css").read_text(encoding="utf-8"),
     }
     print(json.dumps(results, ensure_ascii=False, indent=2))
-    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["google_key_marker_outside_strava_map_html"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or not results["rose_video_source_preserved"] or not results["hero_headings_keep_words_intact"] or len(search_data) != len(expected):
+    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["external_wordpress_media_reference_count"] or results["google_key_marker_outside_strava_map_html"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or results["recovered_media_count"] != 16 or not results["recovered_media_files_exist"] or not results["all_video_sources_local"] or not results["rose_video_source_local"] or not results["hero_headings_keep_words_intact"] or len(search_data) != len(expected):
         raise SystemExit(1)
 
 
