@@ -15,8 +15,8 @@ from urllib.parse import parse_qs, urlparse
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "content" / "wordpress-export.json"
 DOCS = ROOT / "docs"
-SITE_BASE = "/fahrradtouren-online"
-SITE_ORIGIN = "https://gharsche.github.io"
+SITE_BASE = ""
+SITE_ORIGIN = "https://harsche.com"
 CURRENT_YEAR = "2026"
 HOMEPAGE_IMAGE_URL = "https://harsche.com/wp-content/uploads/2023/01/cropped-iStock-1353080098-e1672999846998-1-e1673000401406.jpg"
 STRAVA_MAP_URL_PATH = ROOT / "content" / "strava-latest-map-url.txt"
@@ -544,6 +544,7 @@ def build(data: dict):
     else:
         DOCS.mkdir(parents=True)
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
+    (DOCS / "CNAME").write_text("harsche.com\n", encoding="utf-8")
     (DOCS / "assets").mkdir(parents=True, exist_ok=True)
     (DOCS / "assets" / "site.css").write_text(CSS, encoding="utf-8")
     (DOCS / "assets" / "site.js").write_text(JS, encoding="utf-8")

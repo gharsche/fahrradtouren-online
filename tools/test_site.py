@@ -10,7 +10,7 @@ from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
-BASE = "/fahrradtouren-online"
+BASE = ""
 
 
 class TextExtractor(HTMLParser):
@@ -100,12 +100,13 @@ def file_for_url(value: str) -> Path | None:
     if parsed.scheme or parsed.netloc:
         return None
     path = unquote(parsed.path)
-    if path == BASE:
-        path = "/"
-    elif path.startswith(BASE + "/"):
-        path = path[len(BASE):]
-    else:
-        return None
+    if BASE:
+        if path == BASE:
+            path = "/"
+        elif path.startswith(BASE + "/"):
+            path = path[len(BASE):]
+        else:
+            return None
     if path.endswith("/") or not Path(path).suffix:
         return DOCS / path.strip("/") / "index.html" if path.strip("/") else DOCS / "index.html"
     return DOCS / path.lstrip("/")
@@ -146,7 +147,7 @@ def main():
     home_html = (DOCS / "index.html").read_text(encoding="utf-8")
     original_image_url = "https://harsche.com/wp-content/uploads/2023/01/cropped-iStock-1353080098-e1672999846998-1-e1673000401406.jpg"
     original_image_path = data["media"].get(original_image_url, "")
-    expected_home_image = BASE + "/" + original_image_path.lstrip("/") if original_image_path else ""
+    expected_home_image = ((BASE + "/" + original_image_path.lstrip("/")) if BASE else ("/" + original_image_path.lstrip("/"))) if original_image_path else ""
     search_data = json.loads((DOCS / "assets" / "search-index.json").read_text(encoding="utf-8"))
     carbon_page = (DOCS / "aufruestung-des-rose-backroad-mit-carbonfelgen" / "index.html").read_text(encoding="utf-8")
     rose_page = (DOCS / "rose-new-bike-day" / "index.html").read_text(encoding="utf-8")
