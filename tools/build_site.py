@@ -222,6 +222,9 @@ class ContentCleaner(HTMLParser):
         elif tag in {"video", "audio"}:
             if "controls" in values:
                 safe.append(("controls", ""))
+            src = self.mapped_url(values.get("src") or "")
+            if src:
+                safe.append(("src", src))
             poster = values.get("poster") or ""
             if poster:
                 safe.append(("poster", self.mapped_url(poster)))

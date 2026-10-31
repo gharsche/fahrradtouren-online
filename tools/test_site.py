@@ -149,6 +149,7 @@ def main():
     expected_home_image = BASE + "/" + original_image_path.lstrip("/") if original_image_path else ""
     search_data = json.loads((DOCS / "assets" / "search-index.json").read_text(encoding="utf-8"))
     carbon_page = (DOCS / "aufruestung-des-rose-backroad-mit-carbonfelgen" / "index.html").read_text(encoding="utf-8")
+    rose_page = (DOCS / "rose-new-bike-day" / "index.html").read_text(encoding="utf-8")
     privacy_page = (DOCS / "datenschutzerklaerung" / "index.html").read_text(encoding="utf-8")
     strava_map_tags = re.findall(r'<img\b(?=[^>]*class="strava-map")[^>]*>', home_html)
     html_without_strava_map_tags = re.sub(r'<img\b(?=[^>]*class="strava-map")[^>]*>', "", text)
@@ -173,10 +174,11 @@ def main():
         "hero_image_exists": (DOCS / "assets" / "bergstrasse-cycling.png").is_file(),
         "homepage_original_image_used": bool(expected_home_image and expected_home_image in home_html),
         "carbon_tile_uses_full_artwork_layout": '<section class="hero artwork-hero">' in carbon_page and 'class="visually-hidden">Aufrüstung des Rose Backroad mit Carbonfelgen</h1>' in carbon_page,
+        "rose_video_source_preserved": bool(re.search(r'<video\b(?=[^>]*\bsrc="https://harsche\.com/wp-content/uploads/2026/09/Video-Project-40\.mp4")[^>]*>', rose_page)),
         "hero_headings_keep_words_intact": ".hero-copy h1{font-size:clamp(32px,4.2vw,56px);overflow-wrap:normal;word-break:normal;hyphens:none}" in (DOCS / "assets" / "site.css").read_text(encoding="utf-8"),
     }
     print(json.dumps(results, ensure_ascii=False, indent=2))
-    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["google_key_marker_outside_strava_map_html"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or not results["hero_headings_keep_words_intact"] or len(search_data) != len(expected):
+    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["google_key_marker_outside_strava_map_html"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or not results["rose_video_source_preserved"] or not results["hero_headings_keep_words_intact"] or len(search_data) != len(expected):
         raise SystemExit(1)
 
 
