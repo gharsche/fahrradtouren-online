@@ -58,6 +58,42 @@ class RefParser(HTMLParser):
                 self.refs.append(values[key])
 
 
+class NavParser(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.in_desktop_nav = False
+        self.group = None
+        self.capture = None
+        self.groups = []
+    def handle_starttag(self, tag, attrs):
+        values = dict(attrs)
+        classes = (values.get("class") or "").split()
+        if tag == "nav" and "desktop-nav" in classes:
+            self.in_desktop_nav = True
+        elif self.in_desktop_nav and tag == "details":
+            self.group = {"label": "", "links": []}
+            self.groups.append(self.group)
+        elif self.group is not None and tag == "summary":
+            self.capture = "label"
+        elif self.group is not None and tag == "a":
+            self.group["links"].append("")
+            self.capture = "link"
+    def handle_endtag(self, tag):
+        if tag in {"summary", "a"}:
+            self.capture = None
+        elif tag == "details":
+            self.group = None
+        elif tag == "nav":
+            self.in_desktop_nav = False
+    def handle_data(self, data):
+        if self.group is None or self.capture is None:
+            return
+        if self.capture == "label":
+            self.group["label"] += data
+        else:
+            self.group["links"][-1] += data
+
+
 def file_for_url(value: str) -> Path | None:
     parsed = urlparse(value)
     if parsed.scheme or parsed.netloc:
@@ -92,9 +128,15 @@ def main():
             missing_content.append({"path": record["path"], "source_sample": source_text[:100], "rendered_sample": rendered_text[:100]})
     html_files = list(DOCS.rglob("*.html"))
     missing_local = []
+    duplicate_menu_entries = []
     for page in html_files:
         parser = RefParser()
         parser.feed(page.read_text(encoding="utf-8"))
+        nav_parser = NavParser()
+        nav_parser.feed(page.read_text(encoding="utf-8"))
+        for group in nav_parser.groups:
+            if group["label"].strip() in {link.strip() for link in group["links"]}:
+                duplicate_menu_entries.append({"page": page.relative_to(DOCS).as_posix(), "label": group["label"].strip()})
         for ref in parser.refs:
             local = file_for_url(ref)
             if local and not local.is_file():
@@ -117,12 +159,14 @@ def main():
         "content_text_missing_count": len(missing_content),
         "missing_local_references": missing_local[:25],
         "missing_local_reference_count": len(missing_local),
+        "duplicate_menu_entries": duplicate_menu_entries[:25],
+        "duplicate_menu_entry_count": len(duplicate_menu_entries),
         "google_key_marker_in_html": "AIza" in text,
         "hero_image_exists": (DOCS / "assets" / "bergstrasse-cycling.png").is_file(),
         "homepage_original_image_used": bool(expected_home_image and expected_home_image in home_html),
     }
     print(json.dumps(results, ensure_ascii=False, indent=2))
-    if missing_routes or missing_content or missing_local or results["google_key_marker_in_html"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or len(search_data) != len(expected):
+    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["google_key_marker_in_html"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or len(search_data) != len(expected):
         raise SystemExit(1)
 
 

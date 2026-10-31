@@ -24,44 +24,46 @@ NAV = [
     {"label": "Start", "path": "/", "items": []},
     {"label": "News", "path": "/news/", "items": [
         ("Neueste Gravelbike Trends", "/news/neueste-gravelbike-trends/"),
-        ("Elektronische Schaltung WHEEL TOP EDS-TX", "/news/elektronische-schaltung-wheel-top-eds-tx/"),
+        ("Elektronische Schaltung: WheelTop EDS-TX", "/news/elektronische-schaltung-wheel-top-eds-tx/"),
         ("Nachrüstung Powermeter", "/news/nachruestung-powermeter/"),
         ("Umbau auf MAVIC Carbonfelgen", "/umbau-auf-mavic-carbonfelgen/"),
         ("Aufrüstung des Rose Backroad mit Carbonfelgen", "/aufruestung-des-rose-backroad-mit-carbonfelgen/"),
     ]},
     {"label": "Fahrradtrends", "path": "/fahrradtrends/", "items": [
-        ("Road Bike", "/fahrradtrends/road-bike/"),
+        ("Rennrad", "/fahrradtrends/road-bike/"),
         ("Gravel Bike", "/fahrradtrends/gravel-bike/"),
-        ("BACKROAD GRX RX810 Di2 1X11", "/fahrradtrends/gravel-bike/backroad-grx-rx810-di2-1x11/"),
-        ("Mountainbike MTB", "/fahrradtrends/montainbike/"),
-        ("E – Bike", "/fahrradtrends/e-bike/"),
+        ("Rose Backroad GRX RX810 Di2", "/fahrradtrends/gravel-bike/backroad-grx-rx810-di2-1x11/"),
+        ("Mountainbike", "/fahrradtrends/montainbike/"),
+        ("E-Bike", "/fahrradtrends/e-bike/"),
     ]},
     {"label": "Touren", "path": "/touren/", "items": [
-        ("Rennrad Tour", "/touren/rennrad-tour/"),
-        ("Gravel Bike Touren", "/gravel-bike-touren/"),
-        ("Mountainbike Tour", "/touren/mountainbike-tour/"),
-        ("E – Bike Tour", "/touren/e-bike-tour/"),
-        ("Familie", "/touren/familie/"),
-    ]},
-    {"label": "Ratgeber", "path": "/sample-page/", "items": [
-        ("Das richtige Fahrrad", "/sample-page/das-richtige-fahrrad/"),
+        ("Rennrad-Touren", "/touren/rennrad-tour/"),
+        ("Gravel-Touren", "/gravel-bike-touren/"),
+        ("Mountainbike-Touren", "/touren/mountainbike-tour/"),
+        ("E-Bike-Touren", "/touren/e-bike-tour/"),
+        ("Familientouren", "/touren/familie/"),
     ]},
     {"label": "Virtuelles Radfahren", "path": "/virtuelles-radfahren/", "items": [
         ("Zwift – Virtuelles Radfahren", "/virtuelles-radfahren/zwift-virtuelles-radfahren/"),
-        ("Zwift Bike (ZWIFT RIDE SMARTER RAHMEN)", "/virtuelles-radfahren/zwift-bike-zwift-ride-smarter-rahmen/"),
+        ("Zwift-Rahmen: Ride Smarter", "/virtuelles-radfahren/zwift-bike-zwift-ride-smarter-rahmen/"),
     ]},
-    {"label": "Nützliche Tools und Apps", "path": "/nuetzliche-tools-und-apps/", "items": [
-        ("STRAVA – If it’s not on STRAVA, it never happend", "/nuetzliche-tools-und-apps/strava-if-its-not-on-strava-it-never-happend/"),
+    {"label": "Tools & Ratgeber", "path": "/nuetzliche-tools-und-apps/", "items": [
         ("Komoot – Routenplanung", "/nuetzliche-tools-und-apps/komoot-routenplanung/"),
+        ("Strava – „If it’s not on Strava, it never happened“", "/nuetzliche-tools-und-apps/strava-if-its-not-on-strava-it-never-happend/"),
+        ("Das richtige Fahrrad", "/sample-page/das-richtige-fahrrad/"),
+        ("Fahrradkette: Wachs oder Öl", "/fahrradkette-wachs-oder-oel/"),
+        ("Sicher im Winter fahren", "/mit-dem-fahrrad-sicher-im-winter-unterwegs/"),
+        ("Blinker für Fahrräder", "/blinker-fuer-fahrraeder/"),
+        ("Fahrradwege: Benutzungspflicht", "/benutzung-von-fahrradwegen-ein-immer-waehrender-streitpunkt/"),
     ]},
 ]
 
 ACTIVITIES = [
-    ("Gravel Tour am Nachmittag ☀️ 🚴🌞", "https://strava.com/activities/20752096019", "On Oktober 27, 2026 went 69,57 km during 02:17:20 hours climbing 61,00 meters burning 1.755 calories."),
-    ("Herbstliche Gravel Tour 🚴🌦⛅️", "https://strava.com/activities/20737839286", "On Oktober 26, 2026 went 63,21 km during 02:16:53 hours climbing 279,00 meters burning 1.677 calories."),
-    ("Zwift - Mech Isle Mayhem in Makuri Islands", "https://strava.com/activities/20725306483", "On Oktober 25, 2026 went 19,10 km during 00:35:32 hours climbing 116,00 meters burning 401 calories."),
-    ("Zwift - Urumaze in Makuri Islands", "https://strava.com/activities/20724741041", "On Oktober 25, 2026 went 25,17 km during 00:42:44 hours climbing 197,00 meters burning 586 calories."),
-    ("Zwift - Half an Hour of Relaxation", "https://strava.com/activities/20697913675", "On Oktober 23, 2026 went 9,39 km during 00:20:17 hours climbing 60,00 meters burning 145 calories."),
+    ("Gravel Tour am Nachmittag ☀️ 🚴🌞", "https://strava.com/activities/20752096019", "27.10.2026 · 69,57 km · 2:17:20 h · 61 hm · 1.755 kcal"),
+    ("Herbstliche Gravel Tour 🚴🌦⛅️", "https://strava.com/activities/20737839286", "26.10.2026 · 63,21 km · 2:16:53 h · 279 hm · 1.677 kcal"),
+    ("Zwift - Mech Isle Mayhem in Makuri Islands", "https://strava.com/activities/20725306483", "25.10.2026 · 19,10 km · 0:35:32 h · 116 hm · 401 kcal"),
+    ("Zwift - Urumaze in Makuri Islands", "https://strava.com/activities/20724741041", "25.10.2026 · 25,17 km · 0:42:44 h · 197 hm · 586 kcal"),
+    ("Zwift – Eine halbe Stunde zum Runterkommen", "https://strava.com/activities/20697913675", "23.10.2026 · 9,39 km · 0:20:17 h · 60 hm · 145 kcal"),
 ]
 
 CSS = r'''/* Shared visual system: forest green, fresh lime and clear editorial rhythm. */
@@ -327,7 +329,7 @@ def nav_html(current_path: str) -> tuple[str, str]:
     for item in NAV:
         url = site_url(item["path"])
         if item["items"]:
-            links = [(item["label"], item["path"])] + item["items"]
+            links = [(f"Übersicht: {item['label']}", item["path"])] + item["items"]
             dlinks = "".join(f'<a href="{site_url(path)}">{esc(label)}</a>' for label, path in links)
             desktop.append(f'<details class="nav-group"><summary>{esc(item["label"])}</summary><div class="dropdown">{dlinks}</div></details>')
             mobile.extend(f'<a href="{site_url(path)}">{esc(label)}</a>' for label, path in links)
@@ -357,8 +359,8 @@ def sidebar_html(data: dict) -> str:
 <section class="widget"><form class="search-form" data-search-form action="{site_url('/search/')}" method="get"><label for="site-search">Suchen</label><div class="search-line"><input id="site-search" type="search" name="s" aria-label="Suchen"><button type="submit">Suchen</button></div></form></section>
 <section class="widget"><h2>Aktuelle Posts</h2><ul class="link-list">{latest}</ul></section>
 <section class="widget"><h2>Aktuelle Kommentare</h2><p class="muted">Es sind keine Kommentare vorhanden.</p></section>
-<section class="widget"><h3>Activities List</h3><ul class="activity-list">{activity_rows}</ul></section>
-<section class="widget"><h3>Latest Activity Map</h3><div class="map-block" role="img" aria-label="Platzhalter für die bestehende Aktivitätskarte">Kartenmodul der Originalseite hier wieder einbinden</div></section>
+<section class="widget"><h3>Meine letzten Ausfahrten</h3><ul class="activity-list">{activity_rows}</ul></section>
+<section class="widget"><h3>Letzte Aktivität auf der Karte</h3><div class="map-block" role="img" aria-label="Platzhalter für die bestehende Aktivitätskarte">Kartenmodul der Originalseite hier wieder einbinden</div></section>
 <section class="widget"><h2>Der ultimative Powerriegel:</h2><div class="product-images">{"".join(product)}</div></section>
 <section class="widget"><h2>Archiv</h2><div class="archive-columns">{archive}</div></section>
 <section class="widget"><h2>Kategorien</h2><div class="archive-columns">{cats}</div></section>
@@ -480,7 +482,7 @@ def render_listing(title: str, posts: list[dict], data: dict, route: str, page_n
     selected = posts[(page_number - 1) * page_size:page_number * page_size]
     lead_image = ""
     lead_alt = ""
-    if page_number == 1 and route == "/":
+    if route == "/":
         lead_image = local_asset(data["media"].get(HOMEPAGE_IMAGE_URL))
         if lead_image:
             lead_alt = "Radfahren an der Bergstraße"
