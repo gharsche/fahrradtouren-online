@@ -21,6 +21,14 @@ CURRENT_YEAR = "2026"
 HOMEPAGE_IMAGE_URL = "https://harsche.com/wp-content/uploads/2023/01/cropped-iStock-1353080098-e1672999846998-1-e1673000401406.jpg"
 STRAVA_MAP_URL_PATH = ROOT / "content" / "strava-latest-map-url.txt"
 STRAVA_LOGO_PATH = ROOT / "content" / "strava-powered-by-orange.svg"
+SEO_META_PATH = ROOT / "tools" / "seo_meta.json"
+
+SEO_PAGES: dict[str, dict] = {}
+if SEO_META_PATH.is_file():
+    try:
+        SEO_PAGES = json.loads(SEO_META_PATH.read_text(encoding="utf-8")).get("pages", {})
+    except Exception:
+        SEO_PAGES = {}
 
 NAV = [
     {"label": "Start", "path": "/", "items": []},
@@ -378,10 +386,143 @@ def sidebar_html(data: dict) -> str:
 </aside>'''
 
 
-def shell(title: str, main: str, data: dict, current_path: str, body_attr: str = "") -> str:
+def shell(
+    title: str,
+    main: str,
+    data: dict,
+    current_path: str,
+    body_attr: str = "",
+    *,
+    record: dict | None = None,
+    image_url: str | None = None,
+    og_type: str = "website",
+) -> str:
     desktop, mobile = nav_html(current_path)
-    title_text = esc(title + " | Radfahren an der Bergstraße")
-    return f'''<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="{esc(clean_text(main)[:190])}"><title>{title_text}</title><link rel="stylesheet" href="{site_url('/assets/site.css')}"><script>window.SITE_BASE={json.dumps(SITE_BASE)};</script><script defer src="{site_url('/assets/site.js')}"></script></head><body {body_attr}><a class="skip" href="#inhalt">Zum Inhalt springen</a><header class="site-head"><div class="wrap brand-row"><a class="brand" href="{site_url('/')}" aria-label="Radfahren an der Bergstraße, Startseite"><span class="brand-mark" aria-hidden="true">↗</span><span>Radfahren an der Bergstraße</span></a><div class="slogan">„Keine Gnade für die Wade“ (Louis J. Halle)</div></div>{desktop}{mobile}</header><main id="inhalt" class="wrap">{main}</main><footer class="site-footer"><div class="wrap"><div class="footer-inner"><div><div class="footer-brand">Radfahren an der Bergstraße</div><p class="footer-quote">„Keine Gnade für die Wade“ (Louis J. Halle)</p></div><div class="footer-links"><span>Rechtliches</span><a href="{site_url('/datenschutzerklaerung/')}">Datenschutzerklärung</a><a href="{site_url('/impressum/')}">Impressum</a></div></div><div class="copyright">© {CURRENT_YEAR}</div></div></footer></body></html>'''
+
+    # Check for curated metadata override
+    meta_override = SEO_PAGES.get(current_path, {})
+
+    if meta_override.get("title"):
+        page_title = meta_override["title"]
+    elif current_path == "/" or title == "Radfahren an der Bergstraße":
+        page_title = "Radfahren an der Bergstraße – Touren, Gravel & Radsport"
+    elif title.endswith("Radfahren an der Bergstraße"):
+        page_title = title
+    else:
+        page_title = f"{title} | Radfahren an der Bergstraße"
+
+    if meta_override.get("description"):
+        page_description = meta_override["description"]
+    elif record and record.get("excerpt_html"):
+        page_description = clean_text(record["excerpt_html"])[:155]
+    elif record and record.get("content_html"):
+        page_description = clean_text(record["content_html"])[:155]
+    else:
+        page_description = clean_text(main)[:155]
+
+    canonical_url = f"{SITE_ORIGIN}{current_path}"
+
+    head_tags = [
+        '<meta charset="utf-8">',
+        '<meta name="viewport" content="width=device-width,initial-scale=1">',
+        f'<title>{esc(page_title)}</title>',
+        f'<meta name="description" content="{esc(page_description)}">',
+    ]
+
+    robots = meta_override.get("robots")
+    if robots:
+        head_tags.append(f'<meta name="robots" content="{esc(robots)}">')
+
+    head_tags.append(f'<link rel="canonical" href="{esc(canonical_url)}">')
+
+    # Resolve full image URL for OG / Twitter
+    full_image_url = ""
+    if image_url:
+        if image_url.startswith("http://") or image_url.startswith("https://"):
+            full_image_url = image_url
+        elif image_url.startswith("/"):
+            full_image_url = f"{SITE_ORIGIN}{image_url}"
+        else:
+            full_image_url = f"{SITE_ORIGIN}/{image_url.lstrip('/')}"
+    else:
+        full_image_url = f"{SITE_ORIGIN}/assets/bergstrasse-cycling.png"
+
+    # Open Graph
+    head_tags.extend([
+        '<meta property="og:locale" content="de_DE">',
+        f'<meta property="og:type" content="{esc(og_type)}">',
+        f'<meta property="og:title" content="{esc(page_title)}">',
+        f'<meta property="og:description" content="{esc(page_description)}">',
+        f'<meta property="og:url" content="{esc(canonical_url)}">',
+        '<meta property="og:site_name" content="Radfahren an der Bergstraße">',
+    ])
+    if full_image_url:
+        head_tags.append(f'<meta property="og:image" content="{esc(full_image_url)}">')
+
+    # Twitter Cards
+    head_tags.extend([
+        '<meta name="twitter:card" content="summary_large_image">',
+        f'<meta name="twitter:title" content="{esc(page_title)}">',
+        f'<meta name="twitter:description" content="{esc(page_description)}">',
+    ])
+    if full_image_url:
+        head_tags.append(f'<meta name="twitter:image" content="{esc(full_image_url)}">')
+
+    # Schema.org JSON-LD Structured Data
+    if current_path == "/":
+        ld = {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Radfahren an der Bergstraße",
+            "url": canonical_url,
+            "description": page_description,
+            "publisher": {
+                "@type": "Person",
+                "name": "Günter Harsche"
+            }
+        }
+    elif record and record.get("kind") == "post":
+        author_name = record.get("author") or "Günter Harsche"
+        date_pub = record.get("date") or ""
+        ld = {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": canonical_url
+            },
+            "headline": page_title,
+            "description": page_description,
+            "url": canonical_url,
+            "author": {
+                "@type": "Person",
+                "name": author_name
+            },
+            "publisher": {
+                "@type": "Person",
+                "name": "Günter Harsche"
+            }
+        }
+        if date_pub:
+            ld["datePublished"] = date_pub
+            ld["dateModified"] = date_pub
+        if full_image_url:
+            ld["image"] = full_image_url
+    else:
+        ld = {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": page_title,
+            "url": canonical_url,
+            "description": page_description
+        }
+
+    json_ld_str = json.dumps(ld, ensure_ascii=False)
+    head_tags.append(f'<script type="application/ld+json">{json_ld_str}</script>')
+
+    head_markup = "".join(head_tags)
+
+    return f'''<!doctype html><html lang="de"><head>{head_markup}<link rel="stylesheet" href="{site_url('/assets/site.css')}"><script>window.SITE_BASE={json.dumps(SITE_BASE)};</script><script defer src="{site_url('/assets/site.js')}"></script></head><body {body_attr}><a class="skip" href="#inhalt">Zum Inhalt springen</a><header class="site-head"><div class="wrap brand-row"><a class="brand" href="{site_url('/')}" aria-label="Radfahren an der Bergstraße, Startseite"><span class="brand-mark" aria-hidden="true">↗</span><span>Radfahren an der Bergstraße</span></a><div class="slogan">„Keine Gnade für die Wade“ (Louis J. Halle)</div></div>{desktop}{mobile}</header><main id="inhalt" class="wrap">{main}</main><footer class="site-footer"><div class="wrap"><div class="footer-inner"><div><div class="footer-brand">Radfahren an der Bergstraße</div><p class="footer-quote">„Keine Gnade für die Wade“ (Louis J. Halle)</p></div><div class="footer-links"><span>Rechtliches</span><a href="{site_url('/datenschutzerklaerung/')}">Datenschutzerklärung</a><a href="{site_url('/impressum/')}">Impressum</a></div></div><div class="copyright">© {CURRENT_YEAR}</div></div></footer></body></html>'''
 
 
 def hero(title: str, *, eyebrow: str = "", image: str = "", image_alt: str = "", description: str = "", quote: str = "") -> str:
@@ -432,7 +573,8 @@ def render_page(record: dict, data: dict, pages_by_path: dict) -> str:
     content += '</article>'
     top = hero(title, eyebrow=eyebrow, image=img, image_alt=image_alt)
     content = f'<div class="page-grid">{content}{sidebar_html(data)}</div>'
-    return shell(title, top + content, data, record["path"])
+    og_type = "article" if record.get("kind") == "post" else "website"
+    return shell(title, top + content, data, record["path"], record=record, image_url=img, og_type=og_type)
 
 
 def direct_children(path: str, pages_by_path: dict) -> list[dict]:
@@ -489,13 +631,14 @@ def pagination(base_path: str, page_number: int, page_count: int) -> str:
     return f'<nav class="pagination" aria-label="Seitennavigation">{left}<span>Seite {page_number} von {page_count}</span>{right}</nav>'
 
 
-def render_listing(title: str, posts: list[dict], data: dict, route: str, page_number: int = 1, *, description: str = "") -> str:
+def render_listing(title: str, posts: list[dict], data: dict, route: str, page_number: int = 1, *, description: str = "", base_route: str = "") -> str:
     page_size = 10
     count = max(1, (len(posts) + page_size - 1) // page_size)
     selected = posts[(page_number - 1) * page_size:page_number * page_size]
     lead_image = ""
     lead_alt = ""
-    if route == "/":
+    base = base_route or route
+    if base == "/":
         lead_image = local_asset(data["media"].get(HOMEPAGE_IMAGE_URL))
         if lead_image:
             lead_alt = "Radfahren an der Bergstraße"
@@ -507,9 +650,9 @@ def render_listing(title: str, posts: list[dict], data: dict, route: str, page_n
         if not lead_image and (DOCS / "assets" / "bergstrasse-cycling.png").exists():
             lead_image = site_url("/assets/bergstrasse-cycling.png")
             lead_alt = "Zwei Radfahrende unterwegs durch die Landschaft der Bergstraße"
-    top = hero(title, image=lead_image, image_alt=lead_alt, description=description, quote='„Keine Gnade für die Wade“ (Louis J. Halle)' if route == "/" else "")
-    main = f'{top}<div class="page-grid"><section class="article"><h2 class="section-heading">Aktuelle Posts</h2>{post_rows(selected, data)}{pagination(route, page_number, count)}</section>{sidebar_html(data)}</div>'
-    return shell(title, main, data, route)
+    top = hero(title, image=lead_image, image_alt=lead_alt, description=description, quote='„Keine Gnade für die Wade“ (Louis J. Halle)' if base == "/" else "")
+    main = f'{top}<div class="page-grid"><section class="article"><h2 class="section-heading">Aktuelle Posts</h2>{post_rows(selected, data)}{pagination(base, page_number, count)}</section>{sidebar_html(data)}</div>'
+    return shell(title, main, data, route, image_url=lead_image)
 
 
 def render_search(data: dict) -> str:
@@ -544,7 +687,7 @@ def build(data: dict):
     else:
         DOCS.mkdir(parents=True)
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
-    (DOCS / "CNAME").write_text("harsche.com\n", encoding="utf-8")
+    (DOCS / "CNAME").write_text("harsche.com", encoding="utf-8")
     (DOCS / "assets").mkdir(parents=True, exist_ok=True)
     (DOCS / "assets" / "site.css").write_text(CSS, encoding="utf-8")
     (DOCS / "assets" / "site.js").write_text(JS, encoding="utf-8")
@@ -562,7 +705,7 @@ def build(data: dict):
     page_count = max(1, (len(posts) + 9) // 10)
     for n in range(1, page_count + 1):
         route = "/" if n == 1 else f"/page/{n}/"
-        write_route(route, render_listing("Radfahren an der Bergstraße", posts, data, "/", n))
+        write_route(route, render_listing("Radfahren an der Bergstraße", posts, data, route, n, base_route="/"))
 
     by_category, by_month = make_archive_records(posts)
     for category in data["categories"]:
@@ -573,7 +716,7 @@ def build(data: dict):
         for n in range(1, count + 1):
             target = route if n == 1 else route.rstrip("/") + f"/page/{n}/"
             label = title if n == 1 else f"{title}, Seite {n}"
-            write_route(target, render_listing(label, group, data, route, n))
+            write_route(target, render_listing(label, group, data, target, n, base_route=route))
     month_labels = {"01":"Januar","02":"Februar","03":"März","04":"April","05":"Mai","06":"Juni","07":"Juli","08":"August","09":"September","10":"Oktober","11":"November","12":"Dezember"}
     for month, group in by_month.items():
         route = f"/{month[:4]}/{month[5:7]}/"
