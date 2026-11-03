@@ -145,6 +145,10 @@ def main():
                 missing_local.append((page.relative_to(DOCS).as_posix(), ref))
     text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in html_files)
     home_html = (DOCS / "index.html").read_text(encoding="utf-8")
+    paper_icon_path = DOCS / "assets" / "bergstrasse-icon-v1-salbei-paper.svg"
+    pine_icon_path = DOCS / "assets" / "bergstrasse-icon-v1-salbei-pine.svg"
+    paper_logo_path = DOCS / "assets" / "bergstrasse-logo-v1-salbei-paper.svg"
+    pine_logo_path = DOCS / "assets" / "bergstrasse-logo-v1-salbei-pine.svg"
     original_image_url = "https://harsche.com/wp-content/uploads/2023/01/cropped-iStock-1353080098-e1672999846998-1-e1673000401406.jpg"
     original_image_path = data["media"].get(original_image_url, "")
     expected_home_image = ((BASE + "/" + original_image_path.lstrip("/")) if BASE else ("/" + original_image_path.lstrip("/"))) if original_image_path else ""
@@ -197,9 +201,11 @@ def main():
         "all_video_sources_local": len(video_sources) == 5 and len(local_video_sources) == 5,
         "rose_video_source_local": bool(re.search(r'<video\b(?=[^>]*\bsrc="/assets/wp-media/461997f54f15f8dd079c\.mp4")[^>]*>', rose_page)),
         "hero_headings_keep_words_intact": ".hero-copy h1{font-size:clamp(32px,4.2vw,56px);overflow-wrap:normal;word-break:normal;hyphens:none}" in (DOCS / "assets" / "site.css").read_text(encoding="utf-8"),
+        "brand_logo_and_favicon_referenced": 'class="brand-logo" src="/assets/bergstrasse-logo-v1-salbei-paper.svg" alt=""' in home_html and 'rel="icon" type="image/svg+xml" href="/assets/bergstrasse-icon-v1-salbei-paper.svg"' in home_html,
+        "brand_logo_assets_present_with_expected_palettes": all(p.is_file() for p in (paper_logo_path, pine_logo_path, paper_icon_path, pine_icon_path)) and all(color in p.read_text(encoding="utf-8") for p in (paper_logo_path, paper_icon_path) for color in ("#173F35", "#4C7566")) and all(color in p.read_text(encoding="utf-8") for p in (pine_logo_path, pine_icon_path) for color in ("#F5F7F1", "#D7EC75")),
     }
     print(json.dumps(results, ensure_ascii=False, indent=2))
-    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["external_wordpress_media_reference_count"] or results["google_key_marker_outside_strava_map_html"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or results["recovered_media_count"] != 16 or not results["recovered_media_files_exist"] or not results["all_video_sources_local"] or not results["rose_video_source_local"] or not results["hero_headings_keep_words_intact"] or len(search_data) != len(expected):
+    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["external_wordpress_media_reference_count"] or results["google_key_marker_outside_strava_map_html"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or results["recovered_media_count"] != 16 or not results["recovered_media_files_exist"] or not results["all_video_sources_local"] or not results["rose_video_source_local"] or not results["hero_headings_keep_words_intact"] or not results["brand_logo_and_favicon_referenced"] or not results["brand_logo_assets_present_with_expected_palettes"] or len(search_data) != len(expected):
         raise SystemExit(1)
 
 

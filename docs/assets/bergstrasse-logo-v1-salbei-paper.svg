@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 120" role="img" aria-labelledby="title desc">
+  <title id="title">Logo – Radfahren an der Bergstraße (Variante 1 Salbei – Paper / Hell)</title>
+  <desc id="desc">Fahrrad-Silhouette in Waldgrün #173F35 mit Salbeigrüner Routenlinie #4C7566 und Zitat „Keine Gnade für die Wade“ (Louis J. Halle)</desc>
+  <g transform="translate(10, 12)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Fahrrad Silhouette (#173F35) -->
+    <g stroke="#173F35">
+      <circle cx="28" cy="62" r="16" stroke-width="4.5"/>
+      <circle cx="84" cy="62" r="16" stroke-width="4.5"/>
+      <circle cx="28" cy="62" r="2.8" fill="#173F35"/>
+      <circle cx="84" cy="62" r="2.8" fill="#173F35"/>
+      <!-- Rahmen -->
+      <path d="M28 62 L45 35 L58 62 H28 M45 35 H65 L84 62 M65 35 L58 62" stroke-width="4"/>
+      <!-- Lenker & Sattel -->
+      <path d="M45 35 L41 26 M36 26 H48 M65 35 L68 25 H75" stroke-width="4"/>
+    </g>
+    <!-- Routenlinie & Pin in Salbeigrün (#4C7566) -->
+    <path d="M12 28 C30 10, 58 10, 86 20" stroke="#4C7566" stroke-width="3.5"/>
+    <circle cx="86" cy="20" r="4" fill="#4C7566"/>
+    <circle cx="86" cy="20" r="1.5" fill="#F5F7F1"/>
+  </g>
+  <!-- Typografie -->
+  <text x="125" y="48" font-family="Avenir Next, Segoe UI, -apple-system, system-ui, sans-serif" font-size="25" font-weight="800" fill="#173F35" letter-spacing="-0.4">Radfahren an der Bergstraße</text>
+  <text x="126" y="78" font-family="Avenir Next, Segoe UI, -apple-system, system-ui, sans-serif" font-size="14.5" font-style="italic" font-weight="500" fill="#173F35" letter-spacing="0.1">„Keine Gnade für die Wade“</text>
+  <text x="345" y="78" font-family="Avenir Next, Segoe UI, -apple-system, system-ui, sans-serif" font-size="13" font-style="normal" font-weight="600" fill="#173F35" opacity="0.85" letter-spacing="0.2">(Louis J. Halle)</text>
+</svg>
