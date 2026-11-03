@@ -174,6 +174,7 @@ def main():
     video_sources = re.findall(r'<video\b[^>]*\bsrc="([^\"]+)"', text)
     local_video_sources = [src for src in video_sources if src.startswith(BASE + "/assets/wp-media/") and (local_path := file_for_url(src)) is not None and local_path.is_file()]
     results = {
+        "google_ads_txt_present_and_correct": (DOCS / "ads.txt").is_file() and (DOCS / "ads.txt").read_text(encoding="utf-8").splitlines() == ["google.com, pub-6223604626427195, DIRECT, f08c47fec0942fa0"],
         "source_pages": len(data["pages"]),
         "source_posts": len(data["posts"]),
         "source_urls_generated": len(expected),
@@ -205,7 +206,7 @@ def main():
         "brand_logo_assets_present_with_expected_palettes": all(p.is_file() for p in (paper_logo_path, pine_logo_path, paper_icon_path, pine_icon_path)) and all(color in p.read_text(encoding="utf-8") for p in (paper_logo_path, paper_icon_path) for color in ("#173F35", "#4C7566")) and all(color in p.read_text(encoding="utf-8") for p in (pine_logo_path, pine_icon_path) for color in ("#F5F7F1", "#D7EC75")),
     }
     print(json.dumps(results, ensure_ascii=False, indent=2))
-    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["external_wordpress_media_reference_count"] or results["google_key_marker_outside_strava_map_html"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or results["recovered_media_count"] != 16 or not results["recovered_media_files_exist"] or not results["all_video_sources_local"] or not results["rose_video_source_local"] or not results["hero_headings_keep_words_intact"] or not results["brand_logo_and_favicon_referenced"] or not results["brand_logo_assets_present_with_expected_palettes"] or len(search_data) != len(expected):
+    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["external_wordpress_media_reference_count"] or results["google_key_marker_outside_strava_map_html"] or not results["google_ads_txt_present_and_correct"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or results["recovered_media_count"] != 16 or not results["recovered_media_files_exist"] or not results["all_video_sources_local"] or not results["rose_video_source_local"] or not results["hero_headings_keep_words_intact"] or not results["brand_logo_and_favicon_referenced"] or not results["brand_logo_assets_present_with_expected_palettes"] or len(search_data) != len(expected):
         raise SystemExit(1)
 
 
