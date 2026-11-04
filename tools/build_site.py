@@ -693,6 +693,7 @@ def build(data: dict):
     (DOCS / "assets" / "site.css").write_text(CSS, encoding="utf-8")
     (DOCS / "assets" / "site.js").write_text(JS, encoding="utf-8")
     shutil.copy2(STRAVA_LOGO_PATH, DOCS / "assets" / STRAVA_LOGO_PATH.name)
+    shutil.copy2(ROOT / "content" / "cretecycling-logo.jpg", DOCS / "assets" / "cretecycling-logo.jpg")
     shutil.copy2(ROOT / "content" / "ads.txt", DOCS / "ads.txt")
     for asset_name in ("bergstrasse-logo-v1-salbei-paper.svg", "bergstrasse-logo-v1-salbei-pine.svg", "bergstrasse-icon-v1-salbei-paper.svg", "bergstrasse-icon-v1-salbei-pine.svg"):
         shutil.copy2(ROOT / "content" / asset_name, DOCS / "assets" / asset_name)
