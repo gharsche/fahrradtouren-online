@@ -76,7 +76,55 @@
 
 
 <p class="wp-block-paragraph">Grundsätzlich sollte immer die eigene und die Sicherheit der anderen Verkehrsteilnehmer im Vordergrund stehen. Hier sollte jeder Verkehrsteilnehmer eigenverantwortlich abwägen und sich eventuell auch gegen die StVO entscheiden. Ein gutes Miteinander im Straßenverkehr basiert auf der Toleranz aller Verkehrsteilnehmer. Nichts destotrotz wurden die oben genannten Aspekte in der Verkehrsnovelle von 2020 nicht ausreichend berücksichtigt. Hier sollte dringend nachgearbeitet werden.</p>
-</div></article><aside class="sidebar" aria-label="Weitere Inhalte">
+</div><section class="remark42-consent" aria-labelledby="remark42-title-benutzung-von-fahrradwegen-ein-immer-waehrender-streitpunkt" aria-busy="false">
+<h2 id="remark42-title-benutzung-von-fahrradwegen-ein-immer-waehrender-streitpunkt">Kommentare</h2>
+<p>Kommentare werden von https://remark42.cycling.harsche.com bereitgestellt und erst nach Ihrer Einwilligung geladen.</p>
+<button class="remark42-load" id="remark42-load-benutzung-von-fahrradwegen-ein-immer-waehrender-streitpunkt" type="button" data-remark42-host="https://remark42.cycling.harsche.com" data-remark42-site-id="remark42" aria-controls="remark42">▶ Kommentare laden</button>
+<p class="remark42-status" role="status" aria-live="polite" hidden></p>
+<p class="remark42-moderation">Kommentare erscheinen erst nach manueller Freischaltung (Moderation).</p>
+<div class="remark42-widget" id="remark42"></div>
+</section><script>(() => {
+  const button = document.getElementById("remark42-load-benutzung-von-fahrradwegen-ein-immer-waehrender-streitpunkt");
+  const section = button?.closest(".remark42-consent");
+  const status = section?.querySelector(".remark42-status");
+  if (!button || !section || !status) return;
+  button.addEventListener("click", () => {
+    if (button.disabled) return;
+    button.disabled = true;
+    button.setAttribute("aria-busy", "true");
+    section.setAttribute("aria-busy", "true");
+    status.textContent = "Kommentare werden geladen …";
+    status.hidden = false;
+    const REMARK42_HOST = button.dataset.remark42Host;
+    const REMARK42_SITE_ID = button.dataset.remark42SiteId;
+    window.remark_config = {
+      host: REMARK42_HOST,
+      site_id: REMARK42_SITE_ID,
+      components: ["embed"],
+      url: window.location.origin + window.location.pathname,
+      page_title: document.title
+    };
+    const script = document.createElement("script");
+    script.type = "module";
+    script.async = true;
+    script.src = `${REMARK42_HOST}/web/embed.mjs`;
+    script.onload = () => {
+      button.hidden = true;
+      button.removeAttribute("aria-busy");
+      section.setAttribute("aria-busy", "false");
+      status.hidden = true;
+    };
+    script.onerror = () => {
+      section.setAttribute("aria-busy", "false");
+      button.disabled = false;
+      button.removeAttribute("aria-busy");
+      status.textContent = "Kommentare können derzeit nicht geladen werden.";
+      status.hidden = false;
+      script.remove();
+    };
+    document.head.appendChild(script);
+  });
+})();</script></article><aside class="sidebar" aria-label="Weitere Inhalte">
 <section class="widget"><form class="search-form" data-search-form action="/search/" method="get"><label for="site-search">Suchen</label><div class="search-line"><input id="site-search" type="search" name="s" aria-label="Suchen"><button type="submit">Suchen</button></div></form></section>
 <section class="widget"><h2>Aktuelle Posts</h2><ul class="link-list"><li><a href="/gravel-bike-trends-2026-breitere-reifen-mehr-komfort-und-gravel-bleibt-vielseitig/">Gravel Bike Trends 2026: breitere Reifen, mehr Komfort – und Gravel bleibt vielseitig</a></li><li><a href="/rose-new-bike-day/">Rose New Bike Day</a></li><li><a href="/2025-war-ein-toedliches-jahr-fuer-radfahrende-in-deutschland/">2025 war ein tödliches Jahr für Radfahrende in Deutschland</a></li><li><a href="/erfahrung-mit-dem-wheeltop-service/">Erfahrung mit WheelTop Service und Support</a></li><li><a href="/stadtradeln-2026/">Stadtradeln 2026</a></li></ul></section>
 <section class="widget"><h2>Aktuelle Kommentare</h2><p class="muted">Es sind keine Kommentare vorhanden.</p></section>

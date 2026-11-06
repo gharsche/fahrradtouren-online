@@ -17,6 +17,9 @@ DATA_PATH = ROOT / "content" / "wordpress-export.json"
 DOCS = ROOT / "docs"
 SITE_BASE = ""
 SITE_ORIGIN = "https://harsche.com"
+REMARK42_HOST = "https://remark42.cycling.harsche.com"
+# Remark42's documented default; adjust if the VPS is configured with another SITE value.
+REMARK42_SITE_ID = "remark42"
 CURRENT_YEAR = "2026"
 HOMEPAGE_IMAGE_URL = "https://harsche.com/wp-content/uploads/2023/01/cropped-iStock-1353080098-e1672999846998-1-e1673000401406.jpg"
 STRAVA_MAP_URL_PATH = ROOT / "content" / "strava-latest-map-url.txt"
@@ -89,6 +92,7 @@ main{padding:0 0 82px}.hero{display:grid;grid-template-columns:.86fr 1.14fr;min-
 @media(max-width:540px){.wrap{width:min(var(--max),calc(100% - 30px))}.brand{font-size:18px}.brand-icon{width:40px;height:40px}.hero{border-radius:14px}.hero-photo{min-height:240px}.hero-copy{padding:28px 23px 32px}h1{font-size:clamp(36px,12vw,52px)}.hero-copy h1{font-size:clamp(30px,8vw,42px)}.content-body{font-size:16px}.page-grid{gap:34px}.sidebar{grid-template-columns:1fr;gap:20px}.mobile-links{grid-template-columns:1fr}.post-row{grid-template-columns:1fr;gap:12px}.post-row img{width:100%;height:210px}.post-row h2{font-size:21px}.link-grid{grid-template-columns:1fr}.article-meta{margin-bottom:20px}.hero.no-photo{min-height:190px}.hero.no-photo .hero-copy{padding:29px 23px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.read-more:after{transition:none}}
 .cretecycling-logo-link{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.cretecycling-logo-link>a{display:block;flex:0 0 88px;line-height:0}.cretecycling-logo-link>a img{width:88px;height:88px;object-fit:contain}.cretecycling-label{font-weight:700;color:var(--pine)}
+.remark42-consent{margin-top:2.5rem;padding:clamp(18px,3vw,28px);border:1px solid var(--line);border-radius:var(--radius);background:var(--white);overflow-wrap:anywhere}.remark42-consent h2{margin:0 0 10px;color:var(--pine);font-size:clamp(21px,2.5vw,28px);line-height:1.2}.remark42-consent p{margin:0 0 12px;color:#46564c;line-height:1.65}.remark42-consent .remark42-load{display:inline-flex;align-items:center;justify-content:center;min-height:46px;margin:4px 0 14px;padding:11px 18px;border:0;border-radius:999px;background:var(--pine);color:white;font:inherit;font-weight:750;cursor:pointer}.remark42-consent .remark42-load:hover{background:var(--pine2)}.remark42-consent .remark42-load:disabled{opacity:.65;cursor:wait}.remark42-consent .remark42-moderation{margin:0;color:var(--muted);font-size:14px}.remark42-consent .remark42-status{margin:0 0 12px;color:var(--muted);font-size:14px}.remark42-widget{min-width:0;max-width:100%;overflow-wrap:anywhere}
 '''
 
 JS = r'''document.addEventListener('click',event=>{document.querySelectorAll('.nav-group[open]').forEach(menu=>{if(!menu.contains(event.target))menu.removeAttribute('open')})});
@@ -538,6 +542,66 @@ def hero(title: str, *, eyebrow: str = "", image: str = "", image_alt: str = "",
     return f'<section class="hero no-photo" aria-label="{esc(title)}"><div class="hero-copy">{label}<h1>{esc(title)}</h1>{desc}{quote_html}</div></section>'
 
 
+def remark42_comments_markup(record: dict) -> str:
+    slug = re.sub(r"[^a-z0-9-]+", "-", record["path"].strip("/").lower()).strip("-") or "post"
+    heading_id = f"remark42-title-{slug}"
+    button_id = f"remark42-load-{slug}"
+    # Remark42 embed.mjs mounts to the documented fixed #remark42 root node.
+    container_id = "remark42"
+    host = esc(REMARK42_HOST)
+    site_id = esc(REMARK42_SITE_ID)
+    script = f'''<script>(() => {{
+  const button = document.getElementById({json.dumps(button_id)});
+  const section = button?.closest(".remark42-consent");
+  const status = section?.querySelector(".remark42-status");
+  if (!button || !section || !status) return;
+  button.addEventListener("click", () => {{
+    if (button.disabled) return;
+    button.disabled = true;
+    button.setAttribute("aria-busy", "true");
+    section.setAttribute("aria-busy", "true");
+    status.textContent = "Kommentare werden geladen …";
+    status.hidden = false;
+    const REMARK42_HOST = button.dataset.remark42Host;
+    const REMARK42_SITE_ID = button.dataset.remark42SiteId;
+    window.remark_config = {{
+      host: REMARK42_HOST,
+      site_id: REMARK42_SITE_ID,
+      components: ["embed"],
+      url: window.location.origin + window.location.pathname,
+      page_title: document.title
+    }};
+    const script = document.createElement("script");
+    script.type = "module";
+    script.async = true;
+    script.src = `${{REMARK42_HOST}}/web/embed.mjs`;
+    script.onload = () => {{
+      button.hidden = true;
+      button.removeAttribute("aria-busy");
+      section.setAttribute("aria-busy", "false");
+      status.hidden = true;
+    }};
+    script.onerror = () => {{
+      section.setAttribute("aria-busy", "false");
+      button.disabled = false;
+      button.removeAttribute("aria-busy");
+      status.textContent = "Kommentare können derzeit nicht geladen werden.";
+      status.hidden = false;
+      script.remove();
+    }};
+    document.head.appendChild(script);
+  }});
+}})();</script>'''
+    return f'''<section class="remark42-consent" aria-labelledby="{heading_id}" aria-busy="false">
+<h2 id="{heading_id}">Kommentare</h2>
+<p>Kommentare werden von {host} bereitgestellt und erst nach Ihrer Einwilligung geladen.</p>
+<button class="remark42-load" id="{button_id}" type="button" data-remark42-host="{host}" data-remark42-site-id="{site_id}" aria-controls="{container_id}">▶ Kommentare laden</button>
+<p class="remark42-status" role="status" aria-live="polite" hidden></p>
+<p class="remark42-moderation">Kommentare erscheinen erst nach manueller Freischaltung (Moderation).</p>
+<div class="remark42-widget" id="{container_id}"></div>
+</section>{script}'''
+
+
 def render_page(record: dict, data: dict, pages_by_path: dict) -> str:
     title = record["title"] or "Radfahren an der Bergstraße"
     body = sanitized(record["content_html"], data["media"])
@@ -572,6 +636,8 @@ def render_page(record: dict, data: dict, pages_by_path: dict) -> str:
             content += f'<section class="related-pages"><h2>Weitere Seiten</h2><div class="link-grid">{items}</div></section>'
         elif record["kind"] == "page":
             content += '<p class="empty-note">' + esc(title) + '</p>'
+    if record["kind"] == "post":
+        content += remark42_comments_markup(record)
     content += '</article>'
     top = hero(title, eyebrow=eyebrow, image=img, image_alt=image_alt)
     content = f'<div class="page-grid">{content}{sidebar_html(data)}</div>'
