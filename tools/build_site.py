@@ -24,6 +24,7 @@ CURRENT_YEAR = "2026"
 HOMEPAGE_IMAGE_URL = "https://harsche.com/wp-content/uploads/2023/01/cropped-iStock-1353080098-e1672999846998-1-e1673000401406.jpg"
 STRAVA_MAP_URL_PATH = ROOT / "content" / "strava-latest-map-url.txt"
 STRAVA_LOGO_PATH = ROOT / "content" / "strava-powered-by-orange.svg"
+CF_WEB_ANALYTICS_SNIPPET = """<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"32126d2761b747b98820b8e23abaa5e7\"}'></script><!-- End Cloudflare Web Analytics -->"""
 SEO_META_PATH = ROOT / "tools" / "seo_meta.json"
 
 SEO_PAGES: dict[str, dict] = {}
@@ -528,7 +529,7 @@ def shell(
 
     head_markup = "".join(head_tags)
 
-    return f'''<!doctype html><html lang="de"><head>{head_markup}<link rel="stylesheet" href="{site_url('/assets/site.css')}"><script>window.SITE_BASE={json.dumps(SITE_BASE)};</script><script defer src="{site_url('/assets/site.js')}"></script></head><body {body_attr}><a class="skip" href="#inhalt">Zum Inhalt springen</a><header class="site-head"><div class="wrap brand-row"><a class="brand" href="{site_url('/')}" aria-label="Radfahren an der Bergstraße, Startseite"><img class="brand-logo" src="{site_url('/assets/bergstrasse-logo-v1-salbei-paper.svg')}" alt=""></a></div>{desktop}{mobile}</header><main id="inhalt" class="wrap">{main}</main><footer class="site-footer"><div class="wrap"><div class="footer-inner"><div><div class="footer-brand">Radfahren an der Bergstraße</div><p class="footer-quote">„Keine Gnade für die Wade“ (Louis J. Halle)</p></div><div class="footer-links"><span>Rechtliches</span><a href="{site_url('/datenschutzerklaerung/')}">Datenschutzerklärung</a><a href="{site_url('/impressum/')}">Impressum</a></div></div><div class="copyright">© {CURRENT_YEAR}</div></div></footer></body></html>'''
+    return f'''<!doctype html><html lang="de"><head>{head_markup}<link rel="stylesheet" href="{site_url('/assets/site.css')}"><script>window.SITE_BASE={json.dumps(SITE_BASE)};</script><script defer src="{site_url('/assets/site.js')}"></script></head><body {body_attr}><a class="skip" href="#inhalt">Zum Inhalt springen</a><header class="site-head"><div class="wrap brand-row"><a class="brand" href="{site_url('/')}" aria-label="Radfahren an der Bergstraße, Startseite"><img class="brand-logo" src="{site_url('/assets/bergstrasse-logo-v1-salbei-paper.svg')}" alt=""></a></div>{desktop}{mobile}</header><main id="inhalt" class="wrap">{main}</main><footer class="site-footer"><div class="wrap"><div class="footer-inner"><div><div class="footer-brand">Radfahren an der Bergstraße</div><p class="footer-quote">„Keine Gnade für die Wade“ (Louis J. Halle)</p></div><div class="footer-links"><span>Rechtliches</span><a href="{site_url('/datenschutzerklaerung/')}">Datenschutzerklärung</a><a href="{site_url('/impressum/')}">Impressum</a></div></div><div class="copyright">© {CURRENT_YEAR}</div></div></footer>{CF_WEB_ANALYTICS_SNIPPET}</body></html>'''
 
 
 def hero(title: str, *, eyebrow: str = "", image: str = "", image_alt: str = "", description: str = "", quote: str = "") -> str:

@@ -129,6 +129,12 @@ def main():
         if source_text and source_text not in rendered_text:
             missing_content.append({"path": record["path"], "source_sample": source_text[:100], "rendered_sample": rendered_text[:100]})
     html_files = list(DOCS.rglob("*.html"))
+    analytics_snippet = "<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"32126d2761b747b98820b8e23abaa5e7\"}'></script><!-- End Cloudflare Web Analytics -->"
+    analytics_missing = []
+    for page in html_files:
+        rendered = page.read_text(encoding="utf-8")
+        if rendered.count(analytics_snippet) != 1 or rendered.index(analytics_snippet) > rendered.index("</body>"):
+            analytics_missing.append(page.relative_to(DOCS).as_posix())
     missing_local = []
     duplicate_menu_entries = []
     for page in html_files:
@@ -191,6 +197,8 @@ def main():
         "source_posts": len(data["posts"]),
         "source_urls_generated": len(expected),
         "html_files": len(html_files),
+        "cloudflare_web_analytics_on_every_route_once_before_body_end": not analytics_missing,
+        "cloudflare_web_analytics_missing_routes": analytics_missing[:20],
         "search_records": len(search_data),
         "category_archives": sum(1 for c in data["categories"] if (DOCS / "category" / c["slug"] / "index.html").is_file()),
         "missing_source_routes": missing_routes,
@@ -218,7 +226,7 @@ def main():
         "brand_logo_assets_present_with_expected_palettes": all(p.is_file() for p in (paper_logo_path, pine_logo_path, paper_icon_path, pine_icon_path)) and all(color in p.read_text(encoding="utf-8") for p in (paper_logo_path, paper_icon_path) for color in ("#173F35", "#4C7566")) and all(color in p.read_text(encoding="utf-8") for p in (pine_logo_path, pine_icon_path) for color in ("#F5F7F1", "#D7EC75")),
     }
     print(json.dumps(results, ensure_ascii=False, indent=2))
-    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["external_wordpress_media_reference_count"] or results["google_key_marker_outside_strava_map_html"] or not results["google_ads_txt_present_and_correct"] or not results["remark42_consent_box_on_every_post"] or not results["remark42_mount_target_matches_embed"] or not results["remark42_embed_deferred_until_click"] or not results["remark42_widget_absent_from_non_posts"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or results["recovered_media_count"] != 16 or not results["recovered_media_files_exist"] or not results["all_video_sources_local"] or not results["rose_video_source_local"] or not results["hero_headings_keep_words_intact"] or not results["brand_logo_and_favicon_referenced"] or not results["brand_logo_assets_present_with_expected_palettes"] or len(search_data) != len(expected):
+    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["external_wordpress_media_reference_count"] or results["google_key_marker_outside_strava_map_html"] or not results["google_ads_txt_present_and_correct"] or not results["remark42_consent_box_on_every_post"] or not results["remark42_mount_target_matches_embed"] or not results["remark42_embed_deferred_until_click"] or not results["remark42_widget_absent_from_non_posts"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or results["recovered_media_count"] != 16 or not results["recovered_media_files_exist"] or not results["all_video_sources_local"] or not results["rose_video_source_local"] or not results["hero_headings_keep_words_intact"] or not results["brand_logo_and_favicon_referenced"] or not results["brand_logo_assets_present_with_expected_palettes"] or not results["cloudflare_web_analytics_on_every_route_once_before_body_end"] or len(search_data) != len(expected):
         raise SystemExit(1)
 
 
