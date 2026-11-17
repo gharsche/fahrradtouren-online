@@ -6,6 +6,7 @@ import html
 import json
 import re
 import shutil
+import sys
 from collections import defaultdict
 from datetime import datetime
 from html.parser import HTMLParser
@@ -23,6 +24,7 @@ REMARK42_SITE_ID = "remark42"
 CURRENT_YEAR = "2026"
 HOMEPAGE_IMAGE_URL = "https://harsche.com/wp-content/uploads/2023/01/cropped-iStock-1353080098-e1672999846998-1-e1673000401406.jpg"
 STRAVA_MAP_URL_PATH = ROOT / "content" / "strava-latest-map-url.txt"
+STRAVA_ACTIVITY_PATH = ROOT / "content" / "strava-latest-activities.json"
 STRAVA_LOGO_PATH = ROOT / "content" / "strava-powered-by-orange.svg"
 CF_WEB_ANALYTICS_SNIPPET = """<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"32126d2761b747b98820b8e23abaa5e7\"}'></script><!-- End Cloudflare Web Analytics -->"""
 SEO_META_PATH = ROOT / "tools" / "seo_meta.json"
@@ -360,15 +362,43 @@ def nav_html(current_path: str) -> tuple[str, str]:
     return desktop_markup, mobile_markup
 
 
+def _site_activities() -> tuple[list[tuple[str, str, str]], str]:
+    """Use a validated refreshed Strava snapshot, otherwise the committed fallback."""
+    fallback_map = STRAVA_MAP_URL_PATH.read_text(encoding="utf-8").strip()
+    if not STRAVA_ACTIVITY_PATH.is_file():
+        return ACTIVITIES, fallback_map
+    try:
+        payload = json.loads(STRAVA_ACTIVITY_PATH.read_text(encoding="utf-8"))
+        rows = payload["activities"]
+        map_url = payload.get("map_url") or fallback_map
+        if not isinstance(rows, list) or not rows:
+            raise ValueError("no activities")
+        if not isinstance(map_url, str) or not map_url.startswith("https://maps.googleapis.com/maps/api/staticmap?"):
+            raise ValueError("invalid map URL")
+        validated = []
+        for row in rows:
+            if not isinstance(row, list) or len(row) != 3:
+                raise ValueError("invalid row")
+            title, url, summary = row
+            parsed = urlparse(str(url))
+            if parsed.scheme != "https" or parsed.netloc not in {"www.strava.com", "strava.com"} or not re.fullmatch(r"/activities/\d+", parsed.path):
+                raise ValueError("invalid activity URL")
+            if not all(isinstance(value, str) and value for value in (title, summary)):
+                raise ValueError("invalid activity text")
+            validated.append((title, url, summary))
+        return validated, map_url
+    except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
+        print("Warning: invalid Strava snapshot; rendering committed fallback activities.", file=sys.stderr)
+        return ACTIVITIES, fallback_map
+
+
 def sidebar_html(data: dict) -> str:
     media = data["media"]
     posts = data["posts"][:5]
     latest = "".join(f'<li><a href="{site_url(p["path"])}">{esc(p["title"])}</a></li>' for p in posts)
-    activity_rows = "".join(f'<li><a href="{esc(url)}">{esc(title)}</a><p>{esc(text)}</p></li>' for title, url, text in ACTIVITIES)
-    map_url = STRAVA_MAP_URL_PATH.read_text(encoding="utf-8").strip()
-    if not map_url.startswith("https://maps.googleapis.com/maps/api/staticmap?"):
-        raise ValueError("Strava latest-activity map must use a Google Static Maps image URL")
-    latest_title, latest_url, _ = ACTIVITIES[0]
+    activities, map_url = _site_activities()
+    activity_rows = "".join(f'<li><a href="{esc(url)}">{esc(title)}</a><p>{esc(text)}</p></li>' for title, url, text in activities)
+    latest_title, latest_url, _ = activities[0]
     strava_brand = f'''<a class="strava-brand" href="{esc(latest_url)}" aria-label="Powered by Strava – neueste Aktivität öffnen"><img class="strava-logo" src="{site_url('/assets/' + STRAVA_LOGO_PATH.name)}" alt="Powered by Strava"></a>'''
     map_widget = f'''<a class="strava-map-link" href="{esc(latest_url)}" title="{esc(latest_title)} auf Strava ansehen"><img class="strava-map" src="{esc(map_url)}" alt="Karte der neuesten Strava-Aktivität: {esc(latest_title)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></a><p class="map-caption"><a href="{esc(latest_url)}">{esc(latest_title)} auf Strava öffnen</a></p>'''
     months = sorted({p["date"][:7] for p in data["posts"] if len(p["date"]) >= 7}, reverse=True)
