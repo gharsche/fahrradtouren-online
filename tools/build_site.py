@@ -595,7 +595,7 @@ def remark42_comments_markup(record: dict) -> str:
 }})();</script>'''
     return f'''<section class="remark42-consent" aria-labelledby="{heading_id}" aria-busy="false">
 <h2 id="{heading_id}">Kommentare</h2>
-<p>Kommentare werden von {host} bereitgestellt und erst nach Ihrer Einwilligung geladen.</p>
+<p>Kommentare werden von {host} bereitgestellt. Mit Klick auf „Kommentare laden“ willigen Sie ein, dass das Kommentar-Widget geladen wird.</p>
 <button class="remark42-load" id="{button_id}" type="button" data-remark42-host="{host}" data-remark42-site-id="{site_id}" aria-controls="{container_id}">▶ Kommentare laden</button>
 <p class="remark42-status" role="status" aria-live="polite" hidden></p>
 <p class="remark42-moderation">Neue Kommentare können öffentlich sichtbar werden. Administratoren können unangemessene Kommentare nachträglich löschen.</p>
