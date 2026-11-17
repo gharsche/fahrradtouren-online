@@ -190,6 +190,7 @@ def main():
     results = {
         "google_ads_txt_present_and_correct": (DOCS / "ads.txt").is_file() and (DOCS / "ads.txt").read_text(encoding="utf-8").splitlines() == ["google.com, pub-6223604626427195, DIRECT, f08c47fec0942fa0"],
         "remark42_consent_box_on_every_post": bool(remark42_post_pages) and all('class="remark42-consent"' in page and '▶ Kommentare laden' in page and 'Kommentare werden von https://remark42.cycling.harsche.com bereitgestellt und erst nach Ihrer Einwilligung geladen.' in page for _, page in remark42_post_pages),
+        "remark42_moderation_notice_is_accurate": all('Neue Kommentare können öffentlich sichtbar werden. Administratoren können unangemessene Kommentare nachträglich löschen.' in page and 'Kommentare erscheinen erst nach manueller Freischaltung (Moderation).' not in page for _, page in remark42_post_pages),
         "remark42_mount_target_matches_embed": all('id="remark42"' in page and 'data-remark42-site-id="remark42"' in page and 'aria-controls="remark42"' in page for _, page in remark42_post_pages),
         "remark42_embed_deferred_until_click": all('addEventListener("click"' in page and 'script.src = `${REMARK42_HOST}/web/embed.mjs`' in page and not re.search(r'<script\\b[^>]*\\bsrc="https://remark42\\.cycling\\.harsche\\.com/web/embed\\.mjs"', page) for _, page in remark42_post_pages),
         "remark42_widget_absent_from_non_posts": all('class="remark42-consent"' not in page for _, page in remark42_page_pages),

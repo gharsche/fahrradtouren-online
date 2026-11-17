@@ -598,7 +598,7 @@ def remark42_comments_markup(record: dict) -> str:
 <p>Kommentare werden von {host} bereitgestellt und erst nach Ihrer Einwilligung geladen.</p>
 <button class="remark42-load" id="{button_id}" type="button" data-remark42-host="{host}" data-remark42-site-id="{site_id}" aria-controls="{container_id}">▶ Kommentare laden</button>
 <p class="remark42-status" role="status" aria-live="polite" hidden></p>
-<p class="remark42-moderation">Kommentare erscheinen erst nach manueller Freischaltung (Moderation).</p>
+<p class="remark42-moderation">Neue Kommentare können öffentlich sichtbar werden. Administratoren können unangemessene Kommentare nachträglich löschen.</p>
 <div class="remark42-widget" id="{container_id}"></div>
 </section>{script}'''
 
