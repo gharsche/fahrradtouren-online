@@ -405,18 +405,12 @@ def sidebar_html(data: dict) -> str:
     month_labels = {"01":"Januar","02":"Februar","03":"März","04":"April","05":"Mai","06":"Juni","07":"Juli","08":"August","09":"September","10":"Oktober","11":"November","12":"Dezember"}
     archive = "".join(f'<a href="{site_url("/"+month[:4]+"/"+month[5:7]+"/")}">{month_labels.get(month[5:7],month[5:7])} {month[:4]}</a>' for month in months)
     cats = "".join(f'<a href="{site_url("/category/"+c["slug"]+"/")}">{esc(c["name"])}</a>' for c in data["categories"])
-    product = []
-    for marker in ("81Yuisb", "OIP.jpeg"):
-        asset = next((local_asset(path) for url,path in media.items() if marker in url), "")
-        if asset:
-            product.append(f'<img src="{asset}" alt="" loading="lazy">')
     return f'''<aside class="sidebar" aria-label="Weitere Inhalte">
 <section class="widget"><form class="search-form" data-search-form action="{site_url('/search/')}" method="get"><label for="site-search">Suchen</label><div class="search-line"><input id="site-search" type="search" name="s" aria-label="Suchen"><button type="submit">Suchen</button></div></form></section>
 <section class="widget"><h2>Aktuelle Posts</h2><ul class="link-list">{latest}</ul></section>
 <section class="widget"><h2>Aktuelle Kommentare</h2><p class="muted">Es sind keine Kommentare vorhanden.</p></section>
 <section class="widget">{strava_brand}<h3>Meine letzten Ausfahrten</h3><ul class="activity-list">{activity_rows}</ul></section>
 <section class="widget"><h3>Letzte Aktivität auf der Karte</h3>{map_widget}</section>
-<section class="widget"><h2>Der ultimative Powerriegel:</h2><div class="product-images">{"".join(product)}</div></section>
 <section class="widget"><h2>Archiv</h2><div class="archive-columns">{archive}</div></section>
 <section class="widget"><h2>Kategorien</h2><div class="archive-columns">{cats}</div></section>
 </aside>'''

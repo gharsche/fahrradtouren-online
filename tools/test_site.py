@@ -187,7 +187,14 @@ def main():
     external_wordpress_media = re.findall(r'(?:src|poster)="(https?://(?:harsche\.com|www\.harsche\.com|i[012]\.wp\.com)/[^\"]*wp-content/uploads/[^\"]+)"', text)
     video_sources = re.findall(r'<video\b[^>]*\bsrc="([^\"]+)"', text)
     local_video_sources = [src for src in video_sources if src.startswith(BASE + "/assets/wp-media/") and (local_path := file_for_url(src)) is not None and local_path.is_file()]
+    product_widget_present = any(
+        "Der ultimative Powerriegel:" in page.read_text(encoding="utf-8")
+        or "eb6141d4ecbde6f24662.jpg" in page.read_text(encoding="utf-8")
+        or "baea8df56e338a263190.jpeg" in page.read_text(encoding="utf-8")
+        for page in html_files
+    )
     results = {
+        "unwanted_powerbar_widget_absent": not product_widget_present,
         "google_ads_txt_present_and_correct": (DOCS / "ads.txt").is_file() and (DOCS / "ads.txt").read_text(encoding="utf-8").splitlines() == ["google.com, pub-6223604626427195, DIRECT, f08c47fec0942fa0"],
         "remark42_consent_box_on_every_post": bool(remark42_post_pages) and all('class="remark42-consent"' in page and '▶ Kommentare laden' in page and 'Mit Klick auf „Kommentare laden“ willigen Sie ein, dass das Kommentar-Widget geladen wird.' in page for _, page in remark42_post_pages),
         "remark42_moderation_notice_is_accurate": all('Neue Kommentare können öffentlich sichtbar werden. Administratoren können unangemessene Kommentare nachträglich löschen.' in page and 'Kommentare erscheinen erst nach manueller Freischaltung (Moderation).' not in page for _, page in remark42_post_pages),
@@ -227,7 +234,7 @@ def main():
         "brand_logo_assets_present_with_expected_palettes": all(p.is_file() for p in (paper_logo_path, pine_logo_path, paper_icon_path, pine_icon_path)) and all(color in p.read_text(encoding="utf-8") for p in (paper_logo_path, paper_icon_path) for color in ("#173F35", "#4C7566")) and all(color in p.read_text(encoding="utf-8") for p in (pine_logo_path, pine_icon_path) for color in ("#F5F7F1", "#D7EC75")),
     }
     print(json.dumps(results, ensure_ascii=False, indent=2))
-    if missing_routes or missing_content or missing_local or duplicate_menu_entries or results["external_wordpress_media_reference_count"] or results["google_key_marker_outside_strava_map_html"] or not results["google_ads_txt_present_and_correct"] or not results["remark42_consent_box_on_every_post"] or not results["remark42_mount_target_matches_embed"] or not results["remark42_embed_deferred_until_click"] or not results["remark42_widget_absent_from_non_posts"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or results["recovered_media_count"] != 16 or not results["recovered_media_files_exist"] or not results["all_video_sources_local"] or not results["rose_video_source_local"] or not results["hero_headings_keep_words_intact"] or not results["brand_logo_and_favicon_referenced"] or not results["brand_logo_assets_present_with_expected_palettes"] or not results["cloudflare_web_analytics_on_every_route_once_before_body_end"] or len(search_data) != len(expected):
+    if product_widget_present or missing_routes or missing_content or missing_local or duplicate_menu_entries or results["external_wordpress_media_reference_count"] or results["google_key_marker_outside_strava_map_html"] or not results["google_ads_txt_present_and_correct"] or not results["remark42_consent_box_on_every_post"] or not results["remark42_mount_target_matches_embed"] or not results["remark42_embed_deferred_until_click"] or not results["remark42_widget_absent_from_non_posts"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or results["recovered_media_count"] != 16 or not results["recovered_media_files_exist"] or not results["all_video_sources_local"] or not results["rose_video_source_local"] or not results["hero_headings_keep_words_intact"] or not results["brand_logo_and_favicon_referenced"] or not results["brand_logo_assets_present_with_expected_palettes"] or not results["cloudflare_web_analytics_on_every_route_once_before_body_end"] or len(search_data) != len(expected):
         raise SystemExit(1)
 
 
