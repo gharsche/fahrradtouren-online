@@ -193,7 +193,17 @@ def main():
         or "baea8df56e338a263190.jpeg" in page.read_text(encoding="utf-8")
         for page in html_files
     )
+    strava_embed_src = "https://www.strava.com/athletes/500308/latest-rides/b12910bb2fadb69d01036aac890778836d05b2e8"
+    sidebar_pages = [page.read_text(encoding="utf-8") for page in html_files if 'class="sidebar"' in page.read_text(encoding="utf-8")]
+    has_profile_embed = lambda page: page.count(f'src="{strava_embed_src}"') == 1 and 'title="Guenter H – aktuelle Aktivitäten auf Strava"' in page
+    legacy_strava_widgets_present = any(marker in text for marker in ('class="strava-brand"', 'class="activity-list"', 'class="strava-map-link"', 'class="strava-map"', 'Meine letzten Ausfahrten', 'Letzte Aktivität auf der Karte'))
     results = {
+        "strava_profile_embed_on_all_sidebar_routes": bool(sidebar_pages) and all(has_profile_embed(page) for page in sidebar_pages),
+        "strava_embed_has_accessible_profile_fallback": all('href="https://www.strava.com/athletes/500308"' in page for page in sidebar_pages),
+        "strava_embed_loads_without_an_extra_button": all('<iframe class="strava-profile-embed"' in page for page in sidebar_pages),
+        "strava_notice_names_provider_and_direct_load": all('Deine persönlichen Aktivitäten werden direkt von Strava geladen.' in page for page in sidebar_pages),
+        "legacy_strava_activity_and_map_widgets_removed": not legacy_strava_widgets_present,
+        "strava_profile_link_fallback_present": 'href="https://www.strava.com/athletes/500308"' in home_html,
         "unwanted_powerbar_widget_absent": not product_widget_present,
         "google_ads_txt_present_and_correct": (DOCS / "ads.txt").is_file() and (DOCS / "ads.txt").read_text(encoding="utf-8").splitlines() == ["google.com, pub-6223604626427195, DIRECT, f08c47fec0942fa0"],
         "remark42_consent_box_on_every_post": bool(remark42_post_pages) and all('class="remark42-consent"' in page and '▶ Kommentare laden' in page and 'Mit Klick auf „Kommentare laden“ willigen Sie ein, dass das Kommentar-Widget geladen wird.' in page for _, page in remark42_post_pages),
@@ -217,9 +227,8 @@ def main():
         "duplicate_menu_entries": duplicate_menu_entries[:25],
         "duplicate_menu_entry_count": len(duplicate_menu_entries),
         "google_key_marker_outside_strava_map_html": "AIza" in html_without_strava_map_tags,
-        "strava_logo_present": 'class="strava-brand"' in home_html and 'strava-powered-by-orange.svg' in home_html and (DOCS / "assets" / "strava-powered-by-orange.svg").is_file() and "#FC5200" in (DOCS / "assets" / "strava-powered-by-orange.svg").read_text(encoding="utf-8"),
-        "strava_map_image_present": bool(strava_map_tags and "maps.googleapis.com/maps/api/staticmap?" in strava_map_tags[0] and "AIza" in strava_map_tags[0]),
         "privacy_discloses_google_map": "Google Maps Static API" in privacy_page and "maps.googleapis.com" in privacy_page,
+        "privacy_discloses_strava_profile_feed": all(term in privacy_page for term in ("Strava-Profil-Aktivitätsfeed", "strava.com/athletes/500308/latest-rides/", "IP-Adresse", "Strava Ireland Limited", "https://www.strava.com/legal/privacy")),
         "hero_image_exists": (DOCS / "assets" / "bergstrasse-cycling.png").is_file(),
         "homepage_original_image_used": bool(expected_home_image and expected_home_image in home_html),
         "carbon_tile_uses_full_artwork_layout": '<section class="hero artwork-hero">' in carbon_page and 'class="visually-hidden">Aufrüstung des Rose Backroad mit Carbonfelgen</h1>' in carbon_page,
@@ -234,7 +243,7 @@ def main():
         "brand_logo_assets_present_with_expected_palettes": all(p.is_file() for p in (paper_logo_path, pine_logo_path, paper_icon_path, pine_icon_path)) and all(color in p.read_text(encoding="utf-8") for p in (paper_logo_path, paper_icon_path) for color in ("#173F35", "#4C7566")) and all(color in p.read_text(encoding="utf-8") for p in (pine_logo_path, pine_icon_path) for color in ("#F5F7F1", "#D7EC75")),
     }
     print(json.dumps(results, ensure_ascii=False, indent=2))
-    if product_widget_present or missing_routes or missing_content or missing_local or duplicate_menu_entries or results["external_wordpress_media_reference_count"] or results["google_key_marker_outside_strava_map_html"] or not results["google_ads_txt_present_and_correct"] or not results["remark42_consent_box_on_every_post"] or not results["remark42_mount_target_matches_embed"] or not results["remark42_embed_deferred_until_click"] or not results["remark42_widget_absent_from_non_posts"] or not results["strava_logo_present"] or not results["strava_map_image_present"] or not results["privacy_discloses_google_map"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or results["recovered_media_count"] != 16 or not results["recovered_media_files_exist"] or not results["all_video_sources_local"] or not results["rose_video_source_local"] or not results["hero_headings_keep_words_intact"] or not results["brand_logo_and_favicon_referenced"] or not results["brand_logo_assets_present_with_expected_palettes"] or not results["cloudflare_web_analytics_on_every_route_once_before_body_end"] or len(search_data) != len(expected):
+    if product_widget_present or missing_routes or missing_content or missing_local or duplicate_menu_entries or results["external_wordpress_media_reference_count"] or results["google_key_marker_outside_strava_map_html"] or not results["google_ads_txt_present_and_correct"] or not results["remark42_consent_box_on_every_post"] or not results["remark42_mount_target_matches_embed"] or not results["remark42_embed_deferred_until_click"] or not results["remark42_widget_absent_from_non_posts"] or not results["privacy_discloses_google_map"] or not results["privacy_discloses_strava_profile_feed"] or not results["hero_image_exists"] or not results["homepage_original_image_used"] or not results["carbon_tile_uses_full_artwork_layout"] or results["recovered_media_count"] != 16 or not results["recovered_media_files_exist"] or not results["all_video_sources_local"] or not results["rose_video_source_local"] or not results["hero_headings_keep_words_intact"] or not results["brand_logo_and_favicon_referenced"] or not results["brand_logo_assets_present_with_expected_palettes"] or not results["cloudflare_web_analytics_on_every_route_once_before_body_end"] or len(search_data) != len(expected):
         raise SystemExit(1)
 
 

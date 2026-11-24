@@ -393,14 +393,8 @@ def _site_activities() -> tuple[list[tuple[str, str, str]], str]:
 
 
 def sidebar_html(data: dict) -> str:
-    media = data["media"]
     posts = data["posts"][:5]
     latest = "".join(f'<li><a href="{site_url(p["path"])}">{esc(p["title"])}</a></li>' for p in posts)
-    activities, map_url = _site_activities()
-    activity_rows = "".join(f'<li><a href="{esc(url)}">{esc(title)}</a><p>{esc(text)}</p></li>' for title, url, text in activities)
-    latest_title, latest_url, _ = activities[0]
-    strava_brand = f'''<a class="strava-brand" href="{esc(latest_url)}" aria-label="Powered by Strava – neueste Aktivität öffnen"><img class="strava-logo" src="{site_url('/assets/' + STRAVA_LOGO_PATH.name)}" alt="Powered by Strava"></a>'''
-    map_widget = f'''<a class="strava-map-link" href="{esc(latest_url)}" title="{esc(latest_title)} auf Strava ansehen"><img class="strava-map" src="{esc(map_url)}" alt="Karte der neuesten Strava-Aktivität: {esc(latest_title)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></a><p class="map-caption"><a href="{esc(latest_url)}">{esc(latest_title)} auf Strava öffnen</a></p>'''
     months = sorted({p["date"][:7] for p in data["posts"] if len(p["date"]) >= 7}, reverse=True)
     month_labels = {"01":"Januar","02":"Februar","03":"März","04":"April","05":"Mai","06":"Juni","07":"Juli","08":"August","09":"September","10":"Oktober","11":"November","12":"Dezember"}
     archive = "".join(f'<a href="{site_url("/"+month[:4]+"/"+month[5:7]+"/")}">{month_labels.get(month[5:7],month[5:7])} {month[:4]}</a>' for month in months)
@@ -409,8 +403,7 @@ def sidebar_html(data: dict) -> str:
 <section class="widget"><form class="search-form" data-search-form action="{site_url('/search/')}" method="get"><label for="site-search">Suchen</label><div class="search-line"><input id="site-search" type="search" name="s" aria-label="Suchen"><button type="submit">Suchen</button></div></form></section>
 <section class="widget"><h2>Aktuelle Posts</h2><ul class="link-list">{latest}</ul></section>
 <section class="widget"><h2>Aktuelle Kommentare</h2><p class="muted">Es sind keine Kommentare vorhanden.</p></section>
-<section class="widget">{strava_brand}<h3>Meine letzten Ausfahrten</h3><ul class="activity-list">{activity_rows}</ul></section>
-<section class="widget"><h3>Letzte Aktivität auf der Karte</h3>{map_widget}</section>
+<section class="widget"><h3>Meine letzten Aktivitäten</h3><p class="strava-embed-note">Deine persönlichen Aktivitäten werden direkt von Strava geladen.</p><iframe class="strava-profile-embed" title="Guenter H – aktuelle Aktivitäten auf Strava" src="https://www.strava.com/athletes/500308/latest-rides/b12910bb2fadb69d01036aac890778836d05b2e8" width="300" height="454" frameborder="0" allowtransparency="true" scrolling="no" loading="lazy"></iframe><p><a href="https://www.strava.com/athletes/500308">Alle Aktivitäten auf Strava öffnen</a></p></section>
 <section class="widget"><h2>Archiv</h2><div class="archive-columns">{archive}</div></section>
 <section class="widget"><h2>Kategorien</h2><div class="archive-columns">{cats}</div></section>
 </aside>'''
